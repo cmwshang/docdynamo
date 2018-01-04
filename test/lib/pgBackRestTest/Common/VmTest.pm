@@ -101,7 +101,8 @@ use constant VM_HOST_DEFAULT                                        => VM_U16;
 use constant VM_COVERAGE                                            => VM_U16;
 
 # Lists valid VMs
-use constant VM_LIST                                                => (VM_CO6, VM_U16, VM_CO7, VM_U12);
+#use constant VM_LIST                                                => (VM_CO6, VM_U16, VM_CO7, VM_U12);
+use constant VM_LIST                                                => (VM_U16); # CSHANG limiting to 1 VM for testing
     push @EXPORT, qw(VM_LIST);
 
 my $oyVm =
@@ -259,44 +260,45 @@ foreach my $strVm (sort(keys(%{$oyVm})))
 ####################################################################################################################################
 # Verify that each version of PostgreSQL is represented in one and only one default VM
 ####################################################################################################################################
-foreach my $strPgVersion (versionSupport())
-{
-    my $strVmPgVersionRun;
-    my $strVmCoverage;
-
-    foreach my $strVm (VM_LIST)
-    {
-        if ($strVm eq VM_COVERAGE)
-        {
-            $strVmCoverage = $strVm;
-        }
-
-        foreach my $strVmPgVersion (@{$oyVm->{$strVm}{&VM_DB_TEST}})
-        {
-            if ($strPgVersion eq $strVmPgVersion)
-            {
-                if (defined($strVmPgVersionRun))
-                {
-                    confess &log(ASSERT, "PostgreSQL $strPgVersion is already configured to run on default vm $strVm");
-                }
-
-                $strVmPgVersionRun = $strVm;
-            }
-        }
-    }
-
-    my $strErrorSuffix = 'is not configured to run on a default vm';
-
-    if (!defined($strVmCoverage))
-    {
-        confess &log(ASSERT, 'vm designated for coverage testing (' . VM_COVERAGE . ") ${strErrorSuffix}");
-    }
-
-    if (!defined($strVmPgVersionRun))
-    {
-        confess &log(ASSERT, "PostgreSQL ${strPgVersion} ${strErrorSuffix}");
-    }
-}
+# CSHANG Removing since docdynamo doesn't really care about PG versions
+# foreach my $strPgVersion (versionSupport())
+# {
+#     my $strVmPgVersionRun;
+#     my $strVmCoverage;
+#
+#     foreach my $strVm (VM_LIST)
+#     {
+#         if ($strVm eq VM_COVERAGE)
+#         {
+#             $strVmCoverage = $strVm;
+#         }
+#
+#         foreach my $strVmPgVersion (@{$oyVm->{$strVm}{&VM_DB_TEST}})
+#         {
+#             if ($strPgVersion eq $strVmPgVersion)
+#             {
+#                 if (defined($strVmPgVersionRun))
+#                 {
+#                     confess &log(ASSERT, "PostgreSQL $strPgVersion is already configured to run on default vm $strVm");
+#                 }
+#
+#                 $strVmPgVersionRun = $strVm;
+#             }
+#         }
+#     }
+#
+#     my $strErrorSuffix = 'is not configured to run on a default vm';
+#
+#     if (!defined($strVmCoverage))
+#     {
+#         confess &log(ASSERT, 'vm designated for coverage testing (' . VM_COVERAGE . ") ${strErrorSuffix}");
+#     }
+#
+#     if (!defined($strVmPgVersionRun))
+#     {
+#         confess &log(ASSERT, "PostgreSQL ${strPgVersion} ${strErrorSuffix}");
+#     }
+# }
 
 ####################################################################################################################################
 # vmGet
