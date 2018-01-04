@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
     # config.disksize.size = '64GB'
 
     config.vm.provider :virtualbox do |vb|
-        vb.name = "pgbackrest-test"
+        vb.name = "docdynamo"
     end
 
     # Provision the VM
@@ -23,8 +23,8 @@ Vagrant.configure(2) do |config|
         export DEBIAN_FRONTEND=noninteractive
 
         # Assign a host name
-        sed -i 's/^127\.0\.0\.1\t.*/127\.0\.0\.1\tlocalhost pgbackrest-test/' /etc/hosts
-        hostnamectl set-hostname pgbackrest-test
+        sed -i 's/^127\.0\.0\.1\t.*/127\.0\.0\.1\tlocalhost docdynamo/' /etc/hosts
+        hostnamectl set-hostname docdynamo
 
         #---------------------------------------------------------------------------------------------------------------------------
         echo 'Update Apt' && date
@@ -72,7 +72,7 @@ Vagrant.configure(2) do |config|
 
         #---------------------------------------------------------------------------------------------------------------------------
         echo 'Install Devel::Cover' && date
-        dpkg -i /backrest/test/package/u16-libdevel-cover-perl_1.23-2_amd64.deb
+        dpkg -i /docdynamo/test/package/u16-libdevel-cover-perl_1.23-2_amd64.deb
 
         #---------------------------------------------------------------------------------------------------------------------------
         echo 'Install Docker' && date
@@ -99,10 +99,10 @@ Vagrant.configure(2) do |config|
 
         #---------------------------------------------------------------------------------------------------------------------------
         echo 'Build VM Images' && date
-        rm -rf /backrest/test/.vagrant/docker/*
-        rm -rf /backrest/test/.vagrant/libc/*
-        rm -rf /backrest/test/.vagrant/package/*
-        sudo su - ubuntu -c '/backrest/test/test.pl --vm-build'
+        rm -rf /docdynamo/test/.vagrant/docker/*
+        rm -rf /docdynamo/test/.vagrant/libc/*
+        rm -rf /docdynamo/test/.vagrant/package/*
+        sudo su - ubuntu -c '/docdynamo/test/test.pl --vm-build'
 
         #---------------------------------------------------------------------------------------------------------------------------
         echo 'Build End' && date
@@ -112,5 +112,5 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   # Mount backrest path for testing
-  config.vm.synced_folder "..", "/backrest"
+  config.vm.synced_folder "..", "/docdynamo"
 end

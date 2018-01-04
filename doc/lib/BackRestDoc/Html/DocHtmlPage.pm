@@ -88,6 +88,8 @@ sub process
     my $strTitle = $oPage->paramGet('title');
     my $strSubTitle = $oPage->paramGet('subtitle', false);
 
+# CSHANG This is what is required for --out=HTML so even though description in the dtd is not required, it is here
+# CSHANG But maybe could make them optional
     my $oHtmlBuilder = new BackRestDoc::Html::DocHtmlBuilder(
         $self->{oManifest}->variableReplace('{[project]}' . (defined($self->{oManifest}->variableGet('project-tagline')) ?
             $self->{oManifest}->variableGet('project-tagline') : '')),

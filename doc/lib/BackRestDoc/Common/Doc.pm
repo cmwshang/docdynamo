@@ -114,8 +114,9 @@ sub parse
 
     my %oOut;
     my $iIndex = 0;
+# CSHANG May need to change this list
     my $bText = $strName eq 'text' || $strName eq 'li' || $strName eq 'p' || $strName eq 'title' ||
-                $strName eq 'summary' || $strName eq 'table-cell' || $strName eq 'table-column' || $strName eq 'list-item';
+                $strName eq 'summary' || $strName eq 'table-cell' || $strName eq 'table-column' || $strName eq 'list-item' || $strName eq 'b' || $strName eq 'i';
 
     # Store the node name
     $oOut{name} = $strName;
@@ -228,9 +229,10 @@ sub build
             $$oOut{param}{$strParam} = $$oDoc{param}{$strParam};
         }
     }
-
+# CSHANG May need to change this list
     if ($$oDoc{name} eq 'p' || $$oDoc{name} eq 'title' || $$oDoc{name} eq 'summary' ||
-        $$oDoc{name} eq 'table-cell' || $$oDoc{name} eq 'table-column' || $$oDoc{name} eq 'list-item')
+        $$oDoc{name} eq 'table-cell' || $$oDoc{name} eq 'table-column' || $$oDoc{name} eq 'list-item' ||
+        $$oDoc{name} eq 'b' || $$oDoc{name} eq 'i')
     {
         $$oOut{field}{text} = $oDoc;
     }

@@ -1,5 +1,4 @@
-<!ELEMENT doc ((description, intro, release-list, contributor-list)|(config, operation)|
-               (description?, variable-list?, block-define*, cleanup?, section+))>
+<!ELEMENT doc (description?, variable-list?, block-define*, cleanup?, section+)>
     <!ATTLIST doc title CDATA #REQUIRED>
     <!ATTLIST doc subtitle CDATA "">
     <!ATTLIST doc toc CDATA "y">
@@ -208,17 +207,14 @@
 <!-- Formatted elements -->
 <!ELEMENT summary (#PCDATA|quote|b|i|ul|ol|id|code|code-block|host|file|path|cmd|setting|exe|backrest|postgres|br-option|
                    br-setting|pg-option|pg-setting|link|user|proper)*>
-<!ELEMENT p (#PCDATA|quote|b|i|id|code|code-block|host|file|path|cmd|setting|exe|backrest|postgres|br-option|br-setting|
-             pg-option|pg-setting|link|user|proper)*>
+<!ELEMENT p ANY>
     <!ATTLIST p keyword CDATA "">
-<!ELEMENT text (#PCDATA|quote|b|i|ul|ol|id|code|code-block|host|file|path|cmd|setting|exe|backrest|postgres|br-option|
-                br-setting|pg-option|pg-setting|link|user|proper)*>
-<!ELEMENT i (#PCDATA)>
-<!ELEMENT b (#PCDATA)>
+<!ELEMENT text ANY>
+<!ELEMENT i ANY>
+<!ELEMENT b ANY>
 <!ELEMENT ul (li+)>
 <!ELEMENT ol (li+)>
-<!ELEMENT li (#PCDATA|quote|b|i|ul|ol|id|code|code-block|host|file|path|cmd|setting|exe|backrest|postgres|br-option|
-              br-setting|pg-option|pg-setting|link|user|proper)*>
+<!ELEMENT li ANY>
 <!ELEMENT list (list-item+)>
 <!ELEMENT list-item (#PCDATA|quote|b|i|ul|ol|id|code|code-block|host|file|path|cmd|setting|exe|backrest|postgres|br-option|
               br-setting|pg-option|pg-setting|link|user|proper)*>
