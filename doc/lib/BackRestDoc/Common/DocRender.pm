@@ -760,8 +760,9 @@ sub processTag
         }
 
         $strBuffer .= $strStart;
-
-        if ($strTag eq 'p' || $strTag eq 'title' || $strTag eq 'li' || $strTag eq 'code-block' || $strTag eq 'summary')
+# CSHANG These also may be an issue regarding having to keep adding/modifying
+        if ($strTag eq 'p' || $strTag eq 'title' || $strTag eq 'li' || $strTag eq 'code-block' || $strTag eq 'summary' ||
+            $strTag eq 'list-item' || $strTag eq 'b' || $strTag eq 'i')
         {
             $strBuffer .= $self->processText($oTag);
         }
