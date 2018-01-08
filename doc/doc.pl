@@ -223,7 +223,7 @@ eval
             or confess &log(ERROR, "unable to create path ${strOutputPath}");
     }
 
-    # Load the manifest
+    # Load the manifest and the source files
     my $oManifest = new BackRestDoc::Common::DocManifest(
         $oStorageDoc, \@stryKeyword, \@stryRequire, \@stryInclude, \@stryExclude, $oVariableOverride, $strDocPath, $bDeploy,
         $bCacheOnly);

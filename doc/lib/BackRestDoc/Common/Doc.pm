@@ -235,6 +235,27 @@ sub build
         $$oDoc{name} eq 'b' || $$oDoc{name} eq 'i')
     {
         $$oOut{field}{text} = $oDoc;
+
+        # Remove single line breaks from certain fields so that they do not appear in the output
+        if ($$oDoc{name} eq 'p' || $$oDoc{name} eq 'title' || $$oDoc{name} eq 'summary' || $$oDoc{name} eq 'list-item' ||
+        $$oDoc{name} eq 'b' || $$oDoc{name} eq 'i')
+        {
+            for (my $iChildIndex = 0; $iChildIndex < @{$$oOut{field}{text}{children}}; $iChildIndex++)
+            {
+                my $oChild = $$oOut{field}{text}{children}[$iChildIndex];
+
+                # Replace only single line breaks - if double then leave in.
+                $oChild =~ s/(?<!\n)\n/ /g;
+
+                $$oOut{field}{text}{children}[$iChildIndex] = $oChild;
+
+                # If this element has children then process the children
+                if (ref($oChild) eq 'HASH' && defined($$oChild{children}))
+                {
+                    $self->build($oChild);
+                }
+            }
+        }
     }
     elsif (defined($$oDoc{children}))
     {
