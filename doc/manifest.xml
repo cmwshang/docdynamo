@@ -3,8 +3,11 @@
 <doc>
     <!-- System-wide variables  -->
     <variable-list>
-        <!-- <variable key="project">Cisco</variable> -->
+        <!-- <variable key="project">PROJECT NAME HERE</variable> -->
         <variable key="dash">-</variable>
+
+        <!-- Logo locations -->
+        <variable key="logo">{[doc-path]}/output/latex/logo</variable>
 
         <!-- HTML variables  -->
         <variable key="prepare-date" eval="y">
@@ -30,12 +33,12 @@
             <render-source key="file1" menu="Home"/>
         </render>
 
-        <render type="pdf" file="{[pdf-file]}">
+        <render type="pdf" file="file1">
             <render-source key="file1"/>
         </render>
 
         <render type="markdown">
-            <render-source key="file1" file="../../../FILE1.md"/>
+            <render-source key="file1" file="FILE1.md"/>
         </render>
     </render-list>
 </doc>

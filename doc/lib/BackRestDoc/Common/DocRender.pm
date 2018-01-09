@@ -850,6 +850,15 @@ sub processText
         $strBuffer =~ s/\<\=/\$\\leq\$/g;
         $strBuffer =~ s/\>\=/\$\\geq\$/g;
         # $strBuffer =~ s/\_/\\_/g;
+# CSHANG NO! These may need to be done only when not in a code block?
+        # Escape special characters in latex
+        $strBuffer =~ s/\#/\\#/g;
+        $strBuffer =~ s/\%/\\%/g;
+        # Dollar sign is special - the second part does not require the backslash to be escaped in order to achieve \$
+        $strBuffer =~ s/\$/\$/g;
+        # Escape all ampersands after making any other conversions above
+        $strBuffer =~ s/\&/\\&/g;
+# CSHANG Need to revisit the above in processTag
     }
 
     $strBuffer = $self->variableReplace($strBuffer);

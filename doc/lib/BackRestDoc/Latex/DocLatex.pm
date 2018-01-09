@@ -59,7 +59,7 @@ sub new
             {name => 'bExe'}
         );
 
-    # Remove the current html path if it exists
+    # Remove the current latex path if it exists
     if (-e $self->{strLatexPath})
     {
         executeTest("rm -rf $self->{strLatexPath}/*");
@@ -82,7 +82,7 @@ sub new
 ####################################################################################################################################
 # process
 #
-# Generate the site html
+# Generate the pdf document
 ####################################################################################################################################
 sub process
 {
