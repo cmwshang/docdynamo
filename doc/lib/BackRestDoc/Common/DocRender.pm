@@ -849,16 +849,23 @@ sub processText
         $strBuffer =~ s/\&lt\;/\</g;
         $strBuffer =~ s/\<\=/\$\\leq\$/g;
         $strBuffer =~ s/\>\=/\$\\geq\$/g;
-        # $strBuffer =~ s/\_/\\_/g;
-# CSHANG NO! These may need to be done only when not in a code block?
-        # Escape special characters in latex
-        $strBuffer =~ s/\#/\\#/g;
-        $strBuffer =~ s/\%/\\%/g;
-        # Dollar sign is special - the second part does not require the backslash to be escaped in order to achieve \$
-        $strBuffer =~ s/\$/\$/g;
-        # Escape all ampersands after making any other conversions above
-        $strBuffer =~ s/\&/\\&/g;
-# CSHANG Need to revisit the above in processTag
+
+        # If not a code-block, which is to be taken AS IS, then escape special characters in latex
+        if ($oText->nameGet() ne 'code-block')
+        {
+            # If the previous character is not already a slash (e.g. not already escaped) then insert a slash
+            $strBuffer =~ s/(?<!\\)\#/\\#/g;
+            $strBuffer =~ s/(?<!\\)\%/\\%/g;
+            $strBuffer =~ s/(?<!\\)\_/\\_/g;
+            $strBuffer =~ s/(?<!\\)\$/\\\$/g;
+
+            $strBuffer =~ s/\&copy\;/{\\textcopyright}/g;
+            $strBuffer =~ s/\&trade\;/{\\texttrademark}/g;
+            $strBuffer =~ s/\&reg\;/{\\textregistered}/g;
+
+            # Escape all ampersands after making any other conversions above
+            $strBuffer =~ s/(?<!\\)\&/\\&/g;
+        }
     }
 
     $strBuffer = $self->variableReplace($strBuffer);

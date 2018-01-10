@@ -119,21 +119,21 @@ you wish to install. The RPMs can be found <link url="https://yum.postgresql.org
 <code-block>sudo yum -y install https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm</code-block>
 <p>Or to install PostgreSQL 10 on a RHEL 7 system:</p>
 <code-block>sudo yum -y install https://download.postgresql.org/pub/repos/yum/testing/10/redhat/rhel-7-x86_64/pgdg-redhat10-10-2.noarch.rpm</code-block>
-<p>You&amp;#8217;ll need to update your system:</p>
+<p>You'll need to update your system:</p>
 <code-block>sudo yum -y update</code-block>
 <p>Then, go ahead and install the PostgreSQL server package.</p>
 <code-block>sudo yum -y install postgresql10-server.x86_64</code-block>
 </section>
 <section id="_installing_docker">
 <title>Installing Docker</title>
-<p>As good practice, at this point you&amp;#8217;ll update your system.</p>
+<p>As good practice, at this point you'll update your system.</p>
 <code-block>sudo yum -y update</code-block>
-<p>After that, it&amp;#8217;s necessary to add the <b>docker</b> group and give your user access
+<p>After that, it's necessary to add the <b>docker</b> group and give your user access
 to that group (here referenced as <b>someuser</b>):</p>
 <code-block>sudo groupadd docker
 sudo usermod -a -G docker someuser</code-block>
 <p>Remember to log out of the <b>someuser</b> account for the Docker group
-to be added to your current session.  Once it&amp;#8217;s added, you&amp;#8217;ll be able
+to be added to your current session.  Once it's added, you'll be able
 to run Docker commands from your user account.</p>
 <code-block>su - someuser</code-block>
 <p>You can ensure your <b>someuser</b> account is added correctly by running the following
@@ -150,7 +150,7 @@ to configure Docker storage appropriately.</p>
 <code-block>fdisk /dev/sd?</code-block>
 <p>Next, create a volume group on the new drive partition within the fdisk utility:</p>
 <code-block>vgcreate docker-vg /dev/sd?</code-block>
-<p>Then, you&amp;#8217;ll need to edit the docker-storage-setup configuration file in order to override default options. Add these two lines to <b>/etc/sysconfig/docker-storage-setup</b>:</p>
+<p>Then, you'll need to edit the docker-storage-setup configuration file in order to override default options. Add these two lines to <b>/etc/sysconfig/docker-storage-setup</b>:</p>
 <code-block>DEVS=/dev/sd?
 VG=docker-vg</code-block>
 <p>Finally, run the command <b>docker-storage-setup</b> to use that new volume group. The results should state that the physical volume /dev/sd? and the volume group docker-vg have both been successfully created.</p>
@@ -170,7 +170,7 @@ containers from <link url="https://hub.docker.com/">Dockerhub</link>, <b>or</b> 
 <code-block>docker login
 cd $CCPROOT
 ./bin/pull-from-dockerhub.sh</code-block>
-<p>Or if you&amp;#8217;d rather build the containers from source, perform a container
+<p>Or if you'd rather build the containers from source, perform a container
 build as follows:</p>
 <code-block>cd $CCPROOT
 make setup
@@ -321,7 +321,7 @@ with installation can occur unless you have a resolving hostname.</p>
 </section>
 <section id="_legal_notices">
 <title>Legal Notices</title>
-<p>Copyright &amp;#169; 2017 Crunchy Data Solutions, Inc.</p>
+<p>Copyright &amp;copy; 2017 Crunchy Data Solutions, Inc.</p>
 <p>CRUNCHY DATA SOLUTIONS, INC. PROVIDES THIS GUIDE <quote>AS IS</quote> WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF NON INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.</p>
 <p>Crunchy, Crunchy Data Solutions, Inc. and the Crunchy Hippo Logo are trademarks of Crunchy Data Solutions, Inc.</p>
 </section>
