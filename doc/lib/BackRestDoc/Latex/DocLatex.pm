@@ -111,14 +111,15 @@ sub process
         {
             my $oDocLatexSection =
                 new BackRestDoc::Latex::DocLatexSection($self->{oManifest}, $strPageId, $self->{bExe});
-# CSHANG replacing pdf-title and pdf-subtitle place holder NOT WORKING - $oPage does not get defined
+# CSHANG replacing pdf-title and pdf-subtitle - place holder in case there is a better way of doing this
             my $oPage = $oDocLatexSection->{oDoc};
 
             # Initialize page title
             my $strTitle = $oPage->paramGet('title');
             my $strSubTitle = $oPage->paramGet('subtitle', false);
-            $strLatex =~ s/{[pdf-title]}/$strTitle/g;
-            $strLatex =~ s/{[pdf-subtitle]}/$strSubTitle/g;
+
+            $strLatex =~ s/\{\[pdf-title\]\}/$strTitle/g;
+            $strLatex =~ s/\{\[pdf-subtitle\]\}/$strSubTitle/g;
 
             # Save the html page
             $strLatex .= $oDocLatexSection->process();
