@@ -181,7 +181,7 @@ sub sectionProcess
         &log(INFO, ('    ' x ($iDepth + 1)) . 'process section: ' . $oSection->paramGet('path'));
     }
 
-    if ($iDepth > 3)
+    if ($iDepth > 4)
     {
         confess &log(ASSERT, "section depth of ${iDepth} exceeds maximum");
     }

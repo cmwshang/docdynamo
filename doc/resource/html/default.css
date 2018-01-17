@@ -181,6 +181,22 @@ Table of Contents
     display: inline;
 }
 
+.section4-toc
+{
+    margin-left: 2.5em;
+}
+
+.section4-toc-number
+{
+    display: inline;
+    margin-right: .5em;
+}
+
+.section4-toc-title
+{
+    display: inline;
+}
+
 /*******************************************************************************
 Section
 *******************************************************************************/
@@ -194,12 +210,12 @@ Section
     margin-top: 1em;
 }
 
-.section2, .section3
+.section2, .section3, .section4
 {
     margin-top: 1em;
 }
 
-.section1-header, .section2-header, .section3-header, .page-toc-header
+.section1-header, .section2-header, .section3-header, .section4-header, .page-toc-header
 {
     margin-top: .5em;
     font-weight: 500;
@@ -215,25 +231,25 @@ Section
     margin-bottom: .5em;
 }
 
-.section1-number, .section2-number, .section3-number
+.section1-number, .section2-number, .section3-number, .section4-number
 {
     display: inline;
     margin-right: .5em;
 }
 
-.section1-title, .section2-title, .section3-title
+.section1-title, .section2-title, .section3-title, .section4-title
 {
     display: inline;
 }
 
-.section1-subtitle, .section2-subtitle, .section3-subtitle
+.section1-subtitle, .section2-subtitle, .section3-subtitle, .section4-subtitle
 {
     font-weight: bold;
     font-size: 16pt;
     margin-top: .5em;
 }
 
-.section1-subsubtitle, .section2-subsubtitle, .section3-subsubtitle
+.section1-subsubtitle, .section2-subsubtitle, .section3-subsubtitle, .section4-subsubtitle
 {
     font-style: italic;
     font-size: 14pt;
@@ -267,18 +283,18 @@ Section
     font-size: 14pt;
 }
 
-.section2-subsubtitle, .section3-subsubtitle
+.section2-subsubtitle, .section3-subsubtitle, .section3-subsubtitle
 {
     font-size: 12pt;
 }
 
-.section3
+.section3, .section4
 {
     margin-left: 1em;
     margin-top: 1em;
 }
 
-.section3:first-of-type
+.section3:first-of-type, .section4:first-of-type
 {
     border-top: none;
 }
@@ -287,6 +303,14 @@ Section
 {
     display: inline;
     font-size: 14pt;
+    color: #396a93;
+    border-bottom: 1px #396a93 solid;
+}
+
+.section4-header
+{
+    display: inline;
+    font-size: 12pt;
     color: #396a93;
     border-bottom: 1px #396a93 solid;
 }

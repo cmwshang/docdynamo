@@ -127,7 +127,7 @@ sub process
     if ($self->{bMenu})
     {
         my $oMenuBody = $oHtmlBuilder->bodyGet()->addNew(HTML_DIV, 'page-menu')->addNew(HTML_DIV, 'menu-body');
-
+# CSHANG This needs a hard look at how to build the menus
         if ($self->{strRenderOutKey} ne 'index' && defined($self->{oManifest}->renderOutGet(RENDER_TYPE_HTML, 'index', true)))
         {
             my $oRenderOut = $self->{oManifest}->renderOutGet(RENDER_TYPE_HTML, 'index');
@@ -226,7 +226,7 @@ sub sectionProcess
         &log(INFO, ('    ' x ($iDepth + 1)) . 'process section: ' . $oSection->paramGet('path'));
     }
 
-    if ($iDepth > 3)
+    if ($iDepth > 4)
     {
         confess &log(ASSERT, "section depth of ${iDepth} exceeds maximum");
     }
