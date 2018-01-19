@@ -101,8 +101,11 @@ sub process
         $self->{bCompact},
         $self->{bCompact} ? $self->{strCss} : undef);
 
+    # Generate header wrapper
+    my $oHeaderWrapper = $oHtmlBuilder->bodyGet()->addNew(HTML_DIV, undef, {strId => 'header-wrapper'});
+
     # Generate header
-    my $oPageHeader = $oHtmlBuilder->bodyGet()->addNew(HTML_DIV, 'page-header');
+    my $oPageHeader = $oHeaderWrapper->addNew(HTML_DIV, 'page-header', {strId => 'page-header'});
 
     # add the logo to the header
     if (defined($self->{oManifest}->variableGet('html-logo')))
@@ -126,7 +129,7 @@ sub process
     # Generate menu
     if ($self->{bMenu})
     {
-        my $oMenuBody = $oHtmlBuilder->bodyGet()->addNew(HTML_DIV, 'page-menu')->addNew(HTML_DIV, 'menu-body');
+        my $oMenuBody = $oHeaderWrapper->addNew(HTML_DIV, 'page-menu')->addNew(HTML_DIV, 'menu-body');
 # CSHANG This needs a hard look at how to build the menus
         if ($self->{strRenderOutKey} ne 'index' && defined($self->{oManifest}->renderOutGet(RENDER_TYPE_HTML, 'index', true)))
         {
@@ -151,12 +154,19 @@ sub process
         }
     }
 
+    # Create the content wrapper
+    my $oContentWrapper = $oHtmlBuilder->bodyGet()->addNew(HTML_DIV, undef,  {strId => 'content-wrapper'});
+
+    # Create the sidebar wrapper and sidebar for the TOC
+    my $oSidebarWrapper = $oContentWrapper->addNew(HTML_DIV, undef,  {strId => 'sidebar-wrapper'});
+    my $oSidebar = $oSidebarWrapper->addNew(HTML_DIV, undef,  {strId => 'sidebar'});
+
     # Generate table of contents
     my $oPageTocBody;
 
     if ($self->{bToc})
     {
-        my $oPageToc = $oHtmlBuilder->bodyGet()->addNew(HTML_DIV, 'page-toc');
+        my $oPageToc = $oSidebar->addNew(HTML_DIV, 'page-toc');
 
         $oPageToc->addNew(HTML_DIV, 'page-toc-header')->addNew(HTML_DIV, 'page-toc-title', {strContent => "Table of Contents"});
 
@@ -164,8 +174,11 @@ sub process
             addNew(HTML_DIV, 'page-toc-body');
     }
 
-    # Generate body
-    my $oPageBody = $oHtmlBuilder->bodyGet()->addNew(HTML_DIV, 'page-body');
+    # Create page wrapper
+    my $oPageWrapper = $oContentWrapper->addNew(HTML_DIV, undef,  {strId => 'page-wrapper'});
+
+    # Generate page body
+    my $oPageBody = $oPageWrapper->addNew(HTML_DIV, undef,  {strId => 'page-body'});
     my $iSectionNo = 1;
 
     # Render sections
@@ -184,7 +197,7 @@ sub process
         $iSectionNo++;
     }
 
-    my $oPageFooter = $oHtmlBuilder->bodyGet()->
+    my $oPageFooter = $oPageWrapper->
         addNew(HTML_DIV, 'page-footer',
                {strContent => '{[html-footer]}'});
 

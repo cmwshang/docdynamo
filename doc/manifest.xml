@@ -6,7 +6,10 @@
         <!-- <variable key="project">PROJECT NAME HERE</variable> -->
         <variable key="dash">-</variable>
 
+        <variable key="project-url-root">/</variable>
+
         <!-- Logo locations -->
+        <variable key="project-logo">crunchy_logo.png</variable>
         <variable key="logo">{[doc-path]}/output/latex/logo</variable>
 
         <!-- HTML variables  -->
@@ -22,6 +25,7 @@
             $stryMonth[$month] . ' ' . $mday . ', ' . $year;
         </variable>
         <variable key="html-footer">Prepared by Crunchy Data Solutions, Inc. &amp;mdash; {[prepare-date]}</variable>
+        <variable key="html-logo">&lt;img src=&quot;{[project-logo]}&quot;&gt;</variable>
     </variable-list>
 
     <source-list>
