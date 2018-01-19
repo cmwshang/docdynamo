@@ -168,7 +168,9 @@ sub process
     {
         my $oPageToc = $oSidebar->addNew(HTML_DIV, 'page-toc');
 
-        $oPageToc->addNew(HTML_DIV, 'page-toc-header')->addNew(HTML_DIV, 'page-toc-title', {strContent => "Table of Contents"});
+        # CSHANG if want a title in the TOC, then should probably have the menu name as the strContent
+    #    $oPageToc->addNew(HTML_DIV, 'page-toc-header')->addNew(HTML_DIV, 'page-toc-title', {strContent => "Table of Contents"});
+    $oPageToc->addNew(HTML_DIV, 'page-toc-header')->addNew(HTML_DIV, 'page-toc-title');
 
         $oPageTocBody = $oPageToc->
             addNew(HTML_DIV, 'page-toc-body');
@@ -250,9 +252,6 @@ sub sectionProcess
             (defined($strAnchor) ? "${strAnchor}/" : '')) .
         $oSection->paramGet('id');
 
-    # Create the section toc element
-    my $oSectionTocElement = new BackRestDoc::Html::DocHtmlElement(HTML_DIV, "section${iDepth}-toc");
-
     # Create the section element
     my $oSectionElement = new BackRestDoc::Html::DocHtmlElement(HTML_DIV, "section${iDepth}");
 
@@ -270,16 +269,24 @@ sub sectionProcess
 
     $oSectionHeaderElement->addNew(HTML_DIV, "section${iDepth}-title", {strContent => $strSectionTitle});
 
-    if ($self->{bTocNumber})
+    # Create the section toc element
+# CSHANG Maybe should use a variable in the manifest to defined the TOC depth
+    my $oSectionTocElement;
+    if ($iDepth <= 2)
     {
-        $oSectionTocElement->addNew(HTML_DIV, "section${iDepth}-toc-number", {strContent => $strSectionNo});
+        $oSectionTocElement = new BackRestDoc::Html::DocHtmlElement(HTML_DIV, "section${iDepth}-toc");
+
+        if ($self->{bTocNumber})
+        {
+            $oSectionTocElement->addNew(HTML_DIV, "section${iDepth}-toc-number", {strContent => $strSectionNo});
+        }
+
+        my $oTocSectionTitleElement = $oSectionTocElement->addNew(HTML_DIV, "section${iDepth}-toc-title");
+
+        $oTocSectionTitleElement->addNew(
+            HTML_A, undef,
+            {strContent => $strSectionTitle, strRef => "#${strAnchor}"});
     }
-
-    my $oTocSectionTitleElement = $oSectionTocElement->addNew(HTML_DIV, "section${iDepth}-toc-title");
-
-    $oTocSectionTitleElement->addNew(
-        HTML_A, undef,
-        {strContent => $strSectionTitle, strRef => "#${strAnchor}"});
 
     # Add the section intro if it exists
     if (defined($oSection->textGet(false)))
