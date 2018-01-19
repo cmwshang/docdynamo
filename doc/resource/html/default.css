@@ -1,6 +1,8 @@
 /*******************************************************************************
 Html and body
 *******************************************************************************/
+/* NOTE: CSHANG Should use floats here instead
+*/
 /* html
 {
     background-color: #f8f8f8;
@@ -11,6 +13,15 @@ Html and body
     margin-right: 1%;
     width: 98%;
 } */
+
+
+html
+{
+    background-color: #f8f8f8;
+    font-family: Avenir, Corbel, sans-serif;
+    font-size: 12pt;
+}
+
 body {
     padding-top: 50px;
     overflow: hidden;
@@ -30,85 +41,60 @@ body {
         width: 1000px;
     }
 } */
-
 #header-wrapper {
     position: fixed;
   	left: 0;
   	top: 0;
-  	background: #f2f2f2;
+  	background: #CCCCCC;
   	width: 100%;
-  	/* heigth: 80px; */
+  	height: 80px;
   	padding: 10px;
   	z-index: 20;
 }
 #content-wrapper {
-    min-height: 100%;
+    /* min-height: 100%; */
     height: 100%;
     width: 100%;
     position: absolute;
-    top: 0px;
+    top: 100px;  /* header-wrapper height and top/bottom padding. CSHANG: should probably use floats */
     left: 0;
     display: inline-block;
 }
 #page-wrapper {
     height: 100%;
     overflow-y: auto;
-    padding: 90px 0 0px 0;
-    margin: 0 0 30px 200px;
+    margin: 0 0 30px 220px;
 }
 #page-body {
     position: relative;
     height: 100%;
     overflow-y: auto;
     padding: 0 15px;
+    margin-bottom: 100px; /* adjust if change header-wrapper height. CSHANG: should probably use floats */
 }
 #sidebar-wrapper {
     height: 100%;
-    padding: 90px 0 0px 0;
     position: fixed;
+    overflow-y: auto;
     border-right: 1px solid gray;
-    width: 210px;
+    width: 220px;
 }
 #sidebar {
     position: relative;
     height: 100%;
-    overflow:auto;
+    overflow-y: auto;
+    margin-bottom: 120px; /* adjust if change header-wrapper height. CSHANG: should probably use floats */
 }
-#sidebar .list-group-item {
+/* #sidebar .list-group-item {
         border-radius: 0;
         border-left: 0;
         border-right: 0;
         border-top: 0;
-}
+} */
 @media (max-width: 992px) {
     body {
         padding-top: 0px;
     }
-}
-@media (min-width: 992px) {
-    #page-wrapper {
-        float:right;
-    }
-}
-@media (max-width: 992px) {
-    #page-wrapper {
-        padding-top: 0px;
-    }
-}
-@media (max-width: 992px) {
-    #sidebar-wrapper {
-        position: static;
-        height:auto;
-        max-height: 300px;
-  		border-right:0;
-	}
-}
-/* Fixed footer: */
-.footer {
-    background-color:#ffffff;
-	bottom:0;
-  	position:fixed;
-    padding:10px;
 }
 
 /*******************************************************************************
@@ -131,7 +117,7 @@ Header
 
 .page-header-title
 {
-    font-size: xx-large;
+    font-size: x-large;
     font-weight: bolder;
 }
 
@@ -217,19 +203,20 @@ Table of Contents
 .section1-toc
 {
     margin-top: .5em;
+    padding-left: 3px;
 }
 
 .section1-toc-number
 {
     display: inline;
-    font-size: 14pt;
+    font-size: 12pt;
     margin-right: .5em;
 }
 
 .section1-toc-title
 {
     display: inline;
-    font-size: 14pt;
+    font-size: 12pt;
 }
 
 .section2-toc
@@ -241,11 +228,13 @@ Table of Contents
 {
     display: inline;
     margin-right: .5em;
+    font-size: 11pt;
 }
 
 .section2-toc-title
 {
     display: inline;
+    font-size: 11pt;
 }
 
 .section3-toc
@@ -307,7 +296,7 @@ Section
 .section1-header, .page-toc-header
 {
     border-radius: 3px;
-    background-color: #396a93;
+    background-color: #6699CC;  /* 336699 */
     color: #f8f8f8;
     font-size: 22pt;
     padding-left: .5em;
@@ -356,8 +345,8 @@ Section
 
 .section2-header
 {
-    border-bottom: 2px #396a93 solid;
-    color: #396a93;
+    border-bottom: 2px #6699CC solid;
+    color: #6699CC;
     font-size: 16pt;
 }
 
@@ -386,16 +375,16 @@ Section
 {
     display: inline;
     font-size: 14pt;
-    color: #396a93;
-    border-bottom: 1px #396a93 solid;
+    color: #6699CC;
+    border-bottom: 1px #6699CC solid;
 }
 
 .section4-header
 {
     display: inline;
     font-size: 12pt;
-    color: #396a93;
-    border-bottom: 1px #396a93 solid;
+    color: #6699CC;
+    border-bottom: 1px #6699CC solid;
 }
 
 .section-intro

@@ -199,7 +199,7 @@ sub process
         $iSectionNo++;
     }
 
-    my $oPageFooter = $oPageWrapper->
+    my $oPageFooter = $oPageBody->
         addNew(HTML_DIV, 'page-footer',
                {strContent => '{[html-footer]}'});
 
