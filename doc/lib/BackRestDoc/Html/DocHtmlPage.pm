@@ -420,6 +420,42 @@ sub sectionProcess
             $oSectionBodyElement->addNew(
                 HTML_PRE, 'code-block', {strContent => $strValue, bPre => true});
         }
+        # Add table
+        elsif ($oChild->nameGet() eq 'table')
+        {
+            my $oHeader = $oChild->nodeGet('table-header');
+            my @oyColumn = $oHeader->nodeList('table-column');
+
+            my $oTableElement = $oSectionBodyElement->addNew(HTML_TABLE, 'table');
+            my $oHeaderRowElement = $oTableElement->addNew(HTML_TABLE_ROW, 'table-header-row');
+
+            foreach my $oColumn (@oyColumn)
+            {
+                my $strAlign = $oColumn->paramGet("align", false, 'left');
+                my $bFill = $oColumn->paramTest('fill', 'y');
+
+                $oHeaderRowElement->addNew(
+                    HTML_TABLE_HEADER,
+                    "table-header-${strAlign}" . ($bFill ? ",table-header-fill" : ""),
+                    {strContent => $self->processText($oColumn->textGet())});
+            }
+
+            # Build the rows
+            foreach my $oRow ($oChild->nodeGet('table-data')->nodeList('table-row'))
+            {
+                my $oRowElement = $oTableElement->addNew(HTML_TABLE_ROW, 'table-row');
+                my @oRowCellList = $oRow->nodeList('table-cell');
+
+                for (my $iRowCellIdx = 0; $iRowCellIdx < @oRowCellList; $iRowCellIdx++)
+                {
+                    my $oRowCell = $oRowCellList[$iRowCellIdx];
+                    my $strAlign = $oyColumn[$iRowCellIdx]->paramGet("align", false, 'left');
+
+                    $oRowElement->addNew(
+                        HTML_TABLE_DATA, "table-data-${strAlign}", {strContent => $self->processText($oRowCell->textGet())});
+                }
+            }
+        }
         # Add descriptive text
         elsif ($oChild->nameGet() eq 'p')
         {
