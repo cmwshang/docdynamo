@@ -32,6 +32,7 @@
         <source key="index"/>
         <source key="usage"/>
         <source key="examples"/>
+        <source key="containers"/>
     </source-list>
 
     <render-list>
@@ -39,6 +40,7 @@
             <render-source key="index" menu="Home"/>
             <render-source key="usage" menu="Usage"/>
             <render-source key="examples" menu="Examples"/>
+            <render-source key="containers" menu="Containers"/>
         </render>
 
         <render type="pdf" file="index">
