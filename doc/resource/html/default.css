@@ -173,7 +173,7 @@ Menu
     margin-left: 0px;
 }
 
-.menu:before
+/* .menu:before
 {
     content: "[";
 }
@@ -181,7 +181,7 @@ Menu
 .menu:after
 {
     content: "]";
-}
+} */
 
 /*.menu-link*/
 

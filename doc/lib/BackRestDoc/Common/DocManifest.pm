@@ -154,12 +154,17 @@ sub new
             confess &log(ERROR, 'only the pdf render type can have file set')
         }
 
+        my @stryRenderOutKey; # CSHANG
+
         # Iterate the render sources
         foreach my $oRenderOut ($oRender->nodeList('render-source'))
         {
             my $oRenderOutHash = {};
             my $strKey = $oRenderOut->paramGet('key');
             my $strSource = $oRenderOut->paramGet('source', false, $strKey);
+
+            # Preserve natural order
+            push(@stryRenderOutKey, $strKey); # cshang
 
             # Skip sources in exclude list
             if (grep(/^$strSource$/, @{$self->{stryExclude}}))
@@ -544,7 +549,9 @@ sub renderOutList
 
     if (defined(${$self->{oManifest}}{render}{$strType}))
     {
+# use Data::Dumper; syswrite(*STDOUT, "OUT: ".Dumper($self->{oManifest}->{render}{$strType}{out})); #CSHANG
         @stryRenderOut = sort(keys(%{${$self->{oManifest}}{render}{$strType}{out}}));
+# syswrite(*STDOUT, "OUTARRAY: ".Dumper(@stryRenderOut));
     }
 
     # Return from function and log return values if any

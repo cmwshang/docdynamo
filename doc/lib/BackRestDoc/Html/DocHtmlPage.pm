@@ -131,26 +131,28 @@ sub process
     {
         my $oMenuBody = $oHeaderWrapper->addNew(HTML_DIV, 'page-menu')->addNew(HTML_DIV, 'menu-body');
 # CSHANG This needs a hard look at how to build the menus
-        if ($self->{strRenderOutKey} ne 'index' && defined($self->{oManifest}->renderOutGet(RENDER_TYPE_HTML, 'index', true)))
-        {
-            my $oRenderOut = $self->{oManifest}->renderOutGet(RENDER_TYPE_HTML, 'index');
-
-            $oMenuBody->
-                addNew(HTML_DIV, 'menu')->
-                    addNew(HTML_A, 'menu-link', {strContent => $$oRenderOut{menu}, strRef => '{[project-url-root]}'});
-        }
-
+        # if ($self->{strRenderOutKey} ne 'index' && defined($self->{oManifest}->renderOutGet(RENDER_TYPE_HTML, 'index', true)))
+        # {
+        #     my $oRenderOut = $self->{oManifest}->renderOutGet(RENDER_TYPE_HTML, 'index');
+        #
+        #     $oMenuBody->
+        #         addNew(HTML_DIV, 'menu')->
+        #             addNew(HTML_A, 'menu-link', {strContent => $$oRenderOut{menu}, strRef => '{[project-url-root]}'});
+        # }
+# CSHANG
+# use Data::Dumper; syswrite(*STDOUT, "MENU: ".Dumper($self->{oManifest}->renderOutList(RENDER_TYPE_HTML)));
         # ??? The sort order here is hokey and only works for backrest - will need to be changed
-        foreach my $strRenderOutKey (sort {$b cmp $a} $self->{oManifest}->renderOutList(RENDER_TYPE_HTML))
+        # foreach my $strRenderOutKey (sort {$b cmp $a} $self->{oManifest}->renderOutList(RENDER_TYPE_HTML))
+        foreach my $strRenderOutKey ($self->{oManifest}->renderOutList(RENDER_TYPE_HTML))
         {
-            if ($strRenderOutKey ne $self->{strRenderOutKey} && $strRenderOutKey ne 'index')
-            {
+            # if ($strRenderOutKey ne $self->{strRenderOutKey} && $strRenderOutKey ne 'index')
+            # {
                 my $oRenderOut = $self->{oManifest}->renderOutGet(RENDER_TYPE_HTML, $strRenderOutKey);
 
                 $oMenuBody->
                     addNew(HTML_DIV, 'menu')->
                         addNew(HTML_A, 'menu-link', {strContent => $$oRenderOut{menu}, strRef => "${strRenderOutKey}.html"});
-            }
+            # }
         }
     }
 

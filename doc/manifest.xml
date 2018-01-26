@@ -31,12 +31,14 @@
     <source-list>
         <source key="index"/>
         <source key="usage"/>
+        <source key="examples"/>
     </source-list>
 
     <render-list>
         <render type="html">
             <render-source key="index" menu="Home"/>
             <render-source key="usage" menu="Usage"/>
+            <render-source key="examples" menu="Examples"/>
         </render>
 
         <render type="pdf" file="index">
