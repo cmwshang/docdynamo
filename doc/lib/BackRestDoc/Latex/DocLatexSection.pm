@@ -262,9 +262,10 @@ sub sectionProcess
 
             $strLatex .= "}\n";
 
+            # Caption above the table
             if ($oChild->nodeGet("title", false))
             {
-                $strLatex .= "\\caption{" . $self->processText($oChild->nodeGet("title")->textGet()) . ":}\\\\\n";
+                $strLatex .= "\\caption{" . $self->processText($oChild->nodeGet("title")->textGet()) . "}\\\\\n";
             }
 
             $strLatex .= "\\hline";

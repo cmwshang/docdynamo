@@ -423,10 +423,20 @@ sub sectionProcess
         # Add table
         elsif ($oChild->nameGet() eq 'table')
         {
+            my $oTableTitle;
+            if ($oChild->nodeTest('title'))
+            {
+                $oTableTitle = $oChild->nodeGet('title');
+            }
+
             my $oHeader = $oChild->nodeGet('table-header');
             my @oyColumn = $oHeader->nodeList('table-column');
 
             my $oTableElement = $oSectionBodyElement->addNew(HTML_TABLE, 'table');
+            if (defined($oTableTitle))
+            {
+                $oTableElement->addNew(HTML_TABLE_CAPTION, 'table-title', {strContent => $self->processText($oTableTitle->textGet())});
+            }
             my $oHeaderRowElement = $oTableElement->addNew(HTML_TABLE_ROW, 'table-header-row');
 
             foreach my $oColumn (@oyColumn)
