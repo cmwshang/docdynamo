@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE doc SYSTEM "doc.dtd">
-<doc title="Installation Guide - Crunchy Containers for PostgreSQL"  subtitle="Crunchy Data Solutions, Inc.">
+<doc title="Installation Guide - Crunchy Containers for PostgreSQL">
 <description>Installation Guide - Crunchy Containers for PostgreSQL</description>
 <section id="_project_setup">
 <title>Project Setup</title>

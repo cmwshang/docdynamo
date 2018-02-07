@@ -130,6 +130,8 @@ Header
 {
     font-size: x-large;
     font-weight: bolder;
+    font-family: "Droid Sans", sans-serif;
+    color: #337ab7;
 }
 
 .page-header-subtitle
@@ -148,8 +150,8 @@ Header
 
 .page-header-logo > img
 {
-    width: 130px;
-    height: 39px;
+    width: 160px;
+    height: 40px;
 }
 
 /*******************************************************************************
@@ -159,16 +161,18 @@ Menu
 
 .menu-body
 {
-    text-align: center;
+    text-align: right;
 }
 
 .menu
 {
     white-space: nowrap;
     display: inline;
-    margin-left: .5em;
-    font-size: 13pt;
+    margin-left: 1.5em;
+    font-size: 12pt;
+    font-weight: 600;
     text-transform: uppercase;
+    font-family: "Droid Sans", sans-serif;
 }
 
 .menu:first-of-type

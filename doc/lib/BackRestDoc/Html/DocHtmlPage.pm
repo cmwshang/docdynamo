@@ -139,20 +139,15 @@ sub process
         #         addNew(HTML_DIV, 'menu')->
         #             addNew(HTML_A, 'menu-link', {strContent => $$oRenderOut{menu}, strRef => '{[project-url-root]}'});
         # }
-# CSHANG
-# use Data::Dumper; syswrite(*STDOUT, "MENU: ".Dumper($self->{oManifest}->renderOutList(RENDER_TYPE_HTML)));
-        # ??? The sort order here is hokey and only works for backrest - will need to be changed
-        # foreach my $strRenderOutKey (sort {$b cmp $a} $self->{oManifest}->renderOutList(RENDER_TYPE_HTML))
-        foreach my $strRenderOutKey ($self->{oManifest}->renderOutList(RENDER_TYPE_HTML))
-        {
-            # if ($strRenderOutKey ne $self->{strRenderOutKey} && $strRenderOutKey ne 'index')
-            # {
-                my $oRenderOut = $self->{oManifest}->renderOutGet(RENDER_TYPE_HTML, $strRenderOutKey);
 
-                $oMenuBody->
-                    addNew(HTML_DIV, 'menu')->
-                        addNew(HTML_A, 'menu-link', {strContent => $$oRenderOut{menu}, strRef => "${strRenderOutKey}.html"});
-            # }
+        # Get the menu in the order listed in the manifest.xml
+        foreach my $strRenderOutKey (@{${$self->{oManifest}->renderGet(RENDER_TYPE_HTML)}{stryOrder}})
+        {
+            my $oRenderOut = $self->{oManifest}->renderOutGet(RENDER_TYPE_HTML, $strRenderOutKey);
+
+            $oMenuBody->
+                addNew(HTML_DIV, 'menu')->
+                    addNew(HTML_A, 'menu-link', {strContent => $$oRenderOut{menu}, strRef => "${strRenderOutKey}.html"});
         }
     }
 

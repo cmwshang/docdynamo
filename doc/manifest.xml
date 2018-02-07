@@ -9,7 +9,7 @@
         <variable key="project-url-root">/</variable>
 
         <!-- Logo locations -->
-        <variable key="project-logo">crunchy_logo.png</variable>
+        <variable key="project-logo">logo.svg</variable>
         <variable key="logo">{[doc-path]}/output/latex/logo</variable>
 
         <!-- HTML variables  -->
