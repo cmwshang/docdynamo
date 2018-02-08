@@ -430,7 +430,12 @@ sub sectionProcess
             my $oTableElement = $oSectionBodyElement->addNew(HTML_TABLE, 'table');
             if (defined($oTableTitle))
             {
-                $oTableElement->addNew(HTML_TABLE_CAPTION, 'table-title', {strContent => $self->processText($oTableTitle->textGet())});
+                # Print the label (e.g. Table 1:) in front of the title if one exists
+                my $strTableTitle = $oTableTitle->paramTest('label') ?
+                    ($oTableTitle->paramGet('label') . $self->processText($oTableTitle->textGet())) :
+                    $self->processText($oTableTitle->textGet());
+
+                $oTableElement->addNew(HTML_TABLE_CAPTION, 'table-title', {strContent => $strTableTitle});
             }
             my $oHeaderRowElement = $oTableElement->addNew(HTML_TABLE_ROW, 'table-header-row');
 

@@ -111,7 +111,8 @@ sub process
         {
             my $oDocLatexSection =
                 new BackRestDoc::Latex::DocLatexSection($self->{oManifest}, $strPageId, $self->{bExe});
-# CSHANG replacing pdf-title and pdf-subtitle - place holder in case there is a better way of doing this
+
+            # Retrieve the title and subtitle from the page
             my $oPage = $oDocLatexSection->{oDoc};
 
             # Initialize page title
@@ -119,6 +120,13 @@ sub process
             my $strSubTitle = $oPage->paramGet('subtitle', false);
 
             $strLatex =~ s/\{\[pdf-title\]\}/$strTitle/g;
+
+            # Add a subtitle if one is defined else enter a blank line
+            if (!defined($strSubTitle))
+            {
+                $strSubTitle = '\\ ';
+            }
+
             $strLatex =~ s/\{\[pdf-subtitle\]\}/$strSubTitle/g;
 
             # Save the html page

@@ -629,7 +629,7 @@ BACKUP_PVC_STORAGE - a value like 75M means to allow 75 megabytes for the PVC us
 <title>CRON Expression Format</title>
 <p>A cron expression represents a set of times, using 6 space-separated fields.</p>
 <table>
-<title>Table 1. Table Fields</title>
+<title label="Table 1. ">Table Fields</title>
 
 <table-header>
 <table-column align="left">Field name   </table-column>
@@ -719,7 +719,7 @@ day-of-week blank.</p>
 <title>Predefined schedules</title>
 <p>You may use one of several pre-defined schedules in place of a cron expression.</p>
 <table>
-<title>Table 2. Table Predefined Schedules</title>
+<title label="Table 2. ">Table Predefined Schedules</title>
 
 <table-header>
 <table-column align="left">Entry</table-column>
