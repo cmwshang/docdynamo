@@ -316,9 +316,9 @@ externalize your passwords using secrets instead of using generated values
 manually update your passwords to your known values after a restore
 </list-item>
 </list>
-<p><b>Note</b>: Environment variables can be modified when there is a a deployment
+<admonition type="note">Environment variables can be modified when there is a a deployment
 controller in use. Currently, only the replicas have a deployment controller in
-order to avoid the possibility of creating multiple primaries.</p>
+order to avoid the possibility of creating multiple primaries.</admonition>
 <code-block>oc env dc/pg-primary-rc PG_PRIMARY_PASSWORD=foo PG_PRIMARY=user1</code-block>
 </section>
 <section id="_examine_backup_logs">
@@ -561,7 +561,7 @@ on the containers:</p>
 <code-block>docker ps</code-block>
 <p>Next, using psql, connect to the service:</p>
 <code-block>psql -d userdb -h 0.0.0.0 -p &lt;CONTAINER_PORT&gt; -U testuser</code-block>
-<p><b>Note:</b> See <b>PG_PASSWORD</b> in <b>docker-compose.yml</b> for the user password.</p>
+<admonition type="note">See <b>PG_PASSWORD</b> in <b>docker-compose.yml</b> for the user password.</admonition>
 <p>To tear down the example, run the following:</p>
 <code-block>docker-compose stop
 docker-compose rm</code-block>
@@ -978,9 +978,9 @@ database container within the PostgreSQL cluster.</p>
 </section>
 <section id="_kubernetes_7">
 <title>Kubernetes</title>
-<p><b>Note</b>: If you run the example in minikube, you will need to manually
+<admonition type="note">If you run the example in minikube, you will need to manually
 copy the crunchy-proxy-config.json file to a file on
-the minikube named <b>/data/config.json</b>.</p>
+the minikube named <b>/data/config.json</b>.</admonition>
 <p>Start by running the proxy container:</p>
 <code-block>cd $CCPROOT/examples/kube/crunchy-proxy
 ./run.sh</code-block>
@@ -1540,8 +1540,8 @@ within the Suite.</p>
 <p>It takes about 1 minute for the database to become ready for use after initially starting.</p>
 <p>This database is created with the ARCHIVE_MODE and ARCHIVE_TIMEOUT
 environment variables set.</p>
-<p><b>Warning</b>:  WAL segment files are written to the /tmp directory. Leaving the example running
-for a long time could fill up your /tmp directory.</p>
+<admonition type="warning">WAL segment files are written to the /tmp directory. Leaving the example running
+for a long time could fill up your /tmp directory.</admonition>
 <p>To shutdown the instance and remove the container for each example, run the following:</p>
 <code-block>./cleanup.sh</code-block>
 <section id="_docker_14">

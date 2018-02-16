@@ -403,10 +403,10 @@ account, in the my-namespace namespace as follows:</p>
 <code-block>kubectl create clusterrolebinding pgwatcher-view-binding --clusterrole=cluster-admin --serviceaccount=my-namespace:pg-watcher</code-block>
 <p>A less wide open policy would be applied like this on Kube 1.6 rbac:</p>
 <code-block>kubectl create rolebinding my-sa-binding --clusterrole=admin --serviceaccount=default:pg-watcher --namespace=default</code-block>
-<p><b><i>note: </i></b><i>this kubectl command is only available in Kube 1.6, for prior
+<admonition type="note">this kubectl command is only available in Kube 1.6, for prior
 Kube release such as 1.5 and the alpha RBAC, you will need to
 specify the role binding in a JSON/YAML file instead of using
-this command syntax above.</i></p>
+this command syntax above.</admonition>
 <p>You then reference the SA within the POD spec.</p>
 <p>The oc/docker/kubectl commands are included into the container from the
 host when the container image is built.  These commands are used by
@@ -677,8 +677,8 @@ BACKUP_PVC_STORAGE - a value like 75M means to allow 75 megabytes for the PVC us
 </table-row>
 </table-data>
 </table>
-<p>Note: Month and Day-of-week field values are case insensitive.  <quote>SUN</quote>, <quote>Sun</quote>,
-and <quote>sun</quote> are equally accepted.</p>
+<admonition type="note">Month and Day-of-week field values are case insensitive.  <quote>SUN</quote>, <quote>Sun</quote>,
+and <quote>sun</quote> are equally accepted.</admonition>
 <section id="_special_characters">
 <title>Special Characters</title>
 <section id="_asterisk">
@@ -765,9 +765,9 @@ supported by formatting the cron spec like this:</p>
 (<link url="http://golang.org/pkg/time/#ParseDuration">http://golang.org/pkg/time/#ParseDuration</link>).</p>
 <p>For example, <quote>@every 1h30m10s</quote> would indicate a schedule that activates every
 1 hour, 30 minutes, 10 seconds.</p>
-<p>Note: The interval does not take the job runtime into account.  For example,
+<admonition type="note">The interval does not take the job runtime into account.  For example,
 if a job takes 3 minutes to run, and it is scheduled to run every 5 minutes,
-it will have only 2 minutes of idle time between each run.</p>
+it will have only 2 minutes of idle time between each run.</admonition>
 </section>
 <section id="_time_zones">
 <title>Time zones</title>

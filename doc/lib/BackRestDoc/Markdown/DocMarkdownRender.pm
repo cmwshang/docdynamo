@@ -367,6 +367,10 @@ sub sectionProcess
                     ($oTableTitle->paramGet('label') . $self->processText($oTableTitle->textGet())) :
                     $self->processText($oTableTitle->textGet())) . "**\n\n";
             }
+            else
+            {
+                $strMarkdown .= "\n\n";
+            }
 
             my ($strHeaderText, $strHeaderIndicator);
 

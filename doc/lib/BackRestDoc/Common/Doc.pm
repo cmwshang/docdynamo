@@ -116,7 +116,7 @@ sub parse
     my $iIndex = 0;
 # CSHANG May need to change this list
     my $bText = $strName eq 'text' || $strName eq 'li' || $strName eq 'p' || $strName eq 'title' ||
-                $strName eq 'summary' || $strName eq 'table-cell' || $strName eq 'table-column' || $strName eq 'list-item' || $strName eq 'b' || $strName eq 'i';
+                $strName eq 'summary' || $strName eq 'table-cell' || $strName eq 'table-column' || $strName eq 'list-item' || $strName eq 'b' || $strName eq 'i' || $strName eq 'admonition';
 
     # Store the node name
     $oOut{name} = $strName;
@@ -232,13 +232,13 @@ sub build
 # CSHANG May need to change this list
     if ($$oDoc{name} eq 'p' || $$oDoc{name} eq 'title' || $$oDoc{name} eq 'summary' ||
         $$oDoc{name} eq 'table-cell' || $$oDoc{name} eq 'table-column' || $$oDoc{name} eq 'list-item' ||
-        $$oDoc{name} eq 'b' || $$oDoc{name} eq 'i')
+        $$oDoc{name} eq 'b' || $$oDoc{name} eq 'i' || $$oDoc{name} eq 'admonition')
     {
         $$oOut{field}{text} = $oDoc;
-
+# CSHANG May need to change this list - this actually is very tag dependednt
         # Remove single line breaks from certain fields so that they do not appear in the output
         if ($$oDoc{name} eq 'p' || $$oDoc{name} eq 'title' || $$oDoc{name} eq 'summary' || $$oDoc{name} eq 'list-item' ||
-        $$oDoc{name} eq 'b' || $$oDoc{name} eq 'i')
+        $$oDoc{name} eq 'b' || $$oDoc{name} eq 'i' || $$oDoc{name} eq 'admonition')
         {
             for (my $iChildIndex = 0; $iChildIndex < @{$$oOut{field}{text}{children}}; $iChildIndex++)
             {

@@ -112,7 +112,7 @@
 
 <!ELEMENT section (title?,
                    ((p|list|table|host-add|execute-list|backrest-config|postgres-config|cmd-description|
-                     option-description|code-block|block|section)+))>
+                     option-description|code-block|block|section|admonition)+))>
     <!ATTLIST section id CDATA #REQUIRED>
     <!ATTLIST section keyword CDATA "">
     <!ATTLIST section depend CDATA "">
@@ -206,6 +206,8 @@
                       br-setting|pg-option|pg-setting|link|user|proper)*>
 
 <!-- Formatted elements -->
+<!ELEMENT admonition ANY>
+    <!ATTLIST admonition type CDATA #REQUIRED>
 <!ELEMENT summary (#PCDATA|quote|b|i|ul|ol|id|code|code-block|host|file|path|cmd|setting|exe|backrest|postgres|br-option|
                    br-setting|pg-option|pg-setting|link|user|proper)*>
 <!ELEMENT p ANY>
