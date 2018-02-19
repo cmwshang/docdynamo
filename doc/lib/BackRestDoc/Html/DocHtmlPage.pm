@@ -562,7 +562,7 @@ sub sectionProcess
 
             $iSectionNo++;
         }
-        # Add a subsection
+        # Add an admonition (e.g. NOTE, WARNING, etc)
         elsif ($oChild->nameGet() eq 'admonition')
         {
             my $oAdmonition = $oSectionBodyElement->addNew(HTML_DIV, 'admonition');
