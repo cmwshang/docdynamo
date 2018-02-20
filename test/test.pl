@@ -43,7 +43,7 @@ use pgBackRestBuild::Config::Build;
 use pgBackRestBuild::Config::BuildDefine;
 use pgBackRestBuild::Config::BuildParse;
 
-use DocDynamo::Custom::DocCustomRelease;
+use docDynamo::Custom::DocCustomRelease;
 
 use pgBackRestTest::Common::ContainerTest;
 use pgBackRestTest::Common::CiTest;
@@ -350,12 +350,12 @@ eval
         }
 
         # Load the doc module dynamically since it is not supported on all systems
-        require DocDynamo::Common::Doc;
-        DocDynamo::Common::Doc->import();
+        require docDynamo::Doc::Doc;
+        docDynamo::Doc::Doc->import();
 
         # Make sure version number matches the latest release
         my $strReleaseFile = dirname(dirname(abs_path($0))) . '/doc/xml/release.xml';
-        my $oRelease = (new DocDynamo::Custom::DocCustomRelease(new DocDynamo::Common::Doc($strReleaseFile)))->releaseLast();
+        my $oRelease = (new docDynamo::Custom::DocCustomRelease(new docDynamo::Doc::Doc($strReleaseFile)))->releaseLast();
         my $strVersion = $oRelease->paramGet('version');
         my $bVersionDev = false;
         my $strVersionBase = $strVersion;
