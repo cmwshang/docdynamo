@@ -295,7 +295,7 @@ sub sectionProcess
         # Add descriptive text
         elsif ($oChild->nameGet() eq 'p')
         {
-            if (defined($strLastChild) && $strLastChild ne 'code-block')
+            if (defined($strLastChild) && $strLastChild ne 'code-block' && $strLastChild ne 'table')
             {
                 $strMarkdown .= "\n";
             }
@@ -402,6 +402,12 @@ sub sectionProcess
 
                 $strMarkdown .= "\n";
             }
+        }
+        # Add an admonition (e.g. NOTE, WARNING, etc)
+        elsif ($oChild->nameGet() eq 'admonition')
+        {
+            $strMarkdown .= "\n> **" . uc($oChild->paramGet('type')) . ":**";
+            $strMarkdown .= "\n> " . $self->processText($oChild->textGet());
         }
         # Check if the child can be processed by a parent
         else
