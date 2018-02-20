@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC RENDER MODULE
 ####################################################################################################################################
-package DocDynamo::Common::DocRender;
+package docDynamo::Doc::DocRender;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -12,10 +12,10 @@ use Exporter qw(import);
 use JSON::PP;
 use Storable qw(dclone);
 
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
 
-use DocDynamo::Common::DocManifest;
+use docDynamo::Doc::DocManifest;
 
 ####################################################################################################################################
 # XML tag/param constants
@@ -194,7 +194,7 @@ sub new
         if ($self->{oManifest}->isBackRest())
         {
             $self->{oReference} =
-                new DocDynamo::Common::DocConfig(${$self->{oManifest}->sourceGet('reference')}{doc}, $self);
+                new docDynamo::Doc::DocConfig(${$self->{oManifest}->sourceGet('reference')}{doc}, $self);
         }
 
         if (defined($$oRenderOut{source}) && $$oRenderOut{source} eq 'reference' && $self->{oManifest}->isBackRest())
@@ -214,11 +214,11 @@ sub new
         }
         elsif (defined($$oRenderOut{source}) && $$oRenderOut{source} eq 'release' && $self->{oManifest}->isBackRest())
         {
-            require DocDynamo::Custom::DocCustomRelease;
-            DocDynamo::Custom::DocCustomRelease->import();
+            require docDynamo::Custom::DocCustomRelease;
+            docDynamo::Custom::DocCustomRelease->import();
 
             $self->{oDoc} =
-                (new DocDynamo::Custom::DocCustomRelease(
+                (new docDynamo::Custom::DocCustomRelease(
                     ${$self->{oManifest}->sourceGet('release')}{doc}, $self->{oManifest}->keywordMatch('dev')))->docGet();
         }
         else

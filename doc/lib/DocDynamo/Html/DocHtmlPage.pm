@@ -1,8 +1,8 @@
 ####################################################################################################################################
 # DOC HTML PAGE MODULE
 ####################################################################################################################################
-package DocDynamo::Html::DocHtmlPage;
-use parent 'DocDynamo::Common::DocExecute';
+package docDynamo::Html::DocHtmlPage;
+use parent 'docDynamo::Doc::DocExecute';
 
 use strict;
 use warnings FATAL => qw(all);
@@ -12,14 +12,14 @@ use Data::Dumper;
 use Exporter qw(import);
     our @EXPORT = qw();
 
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
 
-use DocDynamo::Common::DocConfig;
-use DocDynamo::Common::DocManifest;
-use DocDynamo::Common::DocRender;
-use DocDynamo::Html::DocHtmlBuilder;
-use DocDynamo::Html::DocHtmlElement;
+use docDynamo::Doc::DocConfig;
+use docDynamo::Doc::DocManifest;
+use docDynamo::Doc::DocRender;
+use docDynamo::Html::DocHtmlBuilder;
+use docDynamo::Html::DocHtmlElement;
 
 ####################################################################################################################################
 # CONSTRUCTOR
@@ -90,7 +90,7 @@ sub process
 
 # CSHANG This is what is required for --out=HTML so even though description in the dtd is not required, it is here
 # CSHANG But maybe could make them optional
-    my $oHtmlBuilder = new DocDynamo::Html::DocHtmlBuilder(
+    my $oHtmlBuilder = new docDynamo::Html::DocHtmlBuilder(
         $self->{oManifest}->variableReplace('{[project]}' . (defined($self->{oManifest}->variableGet('project-tagline')) ?
             $self->{oManifest}->variableGet('project-tagline') : '')),
         $self->{oManifest}->variableReplace($strTitle . (defined($strSubTitle) ? " - ${strSubTitle}" : '')),
@@ -250,7 +250,7 @@ sub sectionProcess
         $oSection->paramGet('id');
 
     # Create the section element
-    my $oSectionElement = new DocDynamo::Html::DocHtmlElement(HTML_DIV, "section${iDepth}");
+    my $oSectionElement = new docDynamo::Html::DocHtmlElement(HTML_DIV, "section${iDepth}");
 
     # Add the section anchor
     $oSectionElement->addNew(HTML_A, undef, {strId => $strAnchor});
@@ -271,7 +271,7 @@ sub sectionProcess
     my $oSectionTocElement;
     if ($iDepth <= 2)
     {
-        $oSectionTocElement = new DocDynamo::Html::DocHtmlElement(HTML_DIV, "section${iDepth}-toc");
+        $oSectionTocElement = new docDynamo::Html::DocHtmlElement(HTML_DIV, "section${iDepth}-toc");
 
         if ($self->{bTocNumber})
         {
@@ -618,7 +618,7 @@ sub backrestConfigProcess
         my $strHostName = $self->{oManifest}->variableReplace($oConfig->paramGet('host'));
 
         # Render the config
-        $oConfigElement = new DocDynamo::Html::DocHtmlElement(HTML_DIV, "config");
+        $oConfigElement = new docDynamo::Html::DocHtmlElement(HTML_DIV, "config");
 
         $oConfigElement->
             addNew(HTML_DIV, "config-title",
@@ -675,7 +675,7 @@ sub postgresConfigProcess
     {
         # Render the config
         my $strHostName = $self->{oManifest}->variableReplace($oConfig->paramGet('host'));
-        $oConfigElement = new DocDynamo::Html::DocHtmlElement(HTML_DIV, "config");
+        $oConfigElement = new docDynamo::Html::DocHtmlElement(HTML_DIV, "config");
 
         $oConfigElement->
             addNew(HTML_DIV, "config-title",

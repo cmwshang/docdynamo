@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC CONFIG MODULE
 ####################################################################################################################################
-package DocDynamo::Common::DocConfig;
+package docDynamo::Doc::DocConfig;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -11,8 +11,8 @@ use Exporter qw(import);
     our @EXPORT = qw();
 use File::Basename qw(dirname);
 
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
 use pgBackRestBuild::Config::Data;
 use pgBackRest::Version;
 
@@ -838,7 +838,7 @@ sub helpConfigDocGet
         }
     }
 
-    my $oDoc = new DocDynamo::Common::Doc();
+    my $oDoc = new docDynamo::Doc::Doc();
     $oDoc->paramSet('title', $oConfigDoc->paramGet('title'));
 
     # set the description for use as a meta tag
@@ -894,7 +894,7 @@ sub helpCommandDocGet
     my $oOperationDoc = $self->{oDoc}->nodeGet('operation');
     my $oOptionDefine = cfgDefine();
 
-    my $oDoc = new DocDynamo::Common::Doc();
+    my $oDoc = new docDynamo::Doc::Doc();
     $oDoc->paramSet('title', $oOperationDoc->paramGet('title'));
 
     # set the description for use as a meta tag

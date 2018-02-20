@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC HTML BUILDER MODULE
 ####################################################################################################################################
-package DocDynamo::Html::DocHtmlBuilder;
+package docDynamo::Html::DocHtmlBuilder;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -10,10 +10,10 @@ use Carp qw(confess);
 use Exporter qw(import);
     our @EXPORT = qw();
 
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
 
-use DocDynamo::Html::DocHtmlElement;
+use docDynamo::Html::DocHtmlElement;
 
 ####################################################################################################################################
 # CONSTRUCTOR
@@ -53,7 +53,7 @@ sub new
             {name => 'strCss', required => false},
         );
 
-    $self->{oBody} = new DocDynamo::Html::DocHtmlElement(HTML_BODY);
+    $self->{oBody} = new docDynamo::Html::DocHtmlElement(HTML_BODY);
 
     # Return from function and log return values if any
     return logDebugReturn

@@ -24,20 +24,20 @@ use lib dirname(dirname($0)) . '/build/lib';
 use lib dirname(dirname($0)) . '/lib';
 use lib dirname(dirname($0)) . '/test/lib';
 
-use DocDynamo::Common::Doc;
-use DocDynamo::Common::DocConfig;
-use DocDynamo::Common::DocManifest;
-use DocDynamo::Common::DocRender;
-use DocDynamo::Html::DocHtmlSite;
-use DocDynamo::Latex::DocLatex;
-use DocDynamo::Markdown::DocMarkdown;
+use docDynamo::Doc::Doc;
+use docDynamo::Doc::DocConfig;
+use docDynamo::Doc::DocManifest;
+use docDynamo::Doc::DocRender;
+use docDynamo::Html::DocHtmlSite;
+use docDynamo::Latex::DocLatex;
+use docDynamo::Markdown::DocMarkdown;
 
-use pgBackRest::Common::Exception;
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
+use docDynamo::Common::Exception;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
 use pgBackRest::Storage::Local;
 use pgBackRest::Storage::Posix::Driver;
-use pgBackRest::Version;
+use docDynamo::Version;
 
 use pgBackRestTest::Common::ExecuteTest;
 
@@ -90,7 +90,7 @@ eval
     # Display version and exit if requested
     if ($bHelp || $bVersion)
     {
-        print BACKREST_NAME . ' ' . BACKREST_VERSION . " Release Manager\n";
+        print DOCDYNAMO_NAME . ' ' . DOCDYNAMO_VERSION . " Release Manager\n";
 
         if ($bHelp)
         {
@@ -124,8 +124,8 @@ eval
         $strDocPath, new pgBackRest::Storage::Posix::Driver({bFileSync => false, bPathSync => false}));
 
     # Determine if this is a dev release
-    my $bDev = BACKREST_VERSION =~ /dev$/;
-    my $strVersion = $bDev ? 'dev' : BACKREST_VERSION;
+    my $bDev = DOCDYNAMO_VERSION =~ /dev$/;
+    my $strVersion = $bDev ? 'dev' : DOCDYNAMO_VERSION;
 
     if ($bBuild)
     {

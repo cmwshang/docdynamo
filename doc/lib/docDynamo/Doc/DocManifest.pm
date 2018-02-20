@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC MANIFEST MODULE
 ####################################################################################################################################
-package DocDynamo::Common::DocManifest;
+package docDynamo::Doc::DocManifest;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -13,8 +13,8 @@ use Exporter qw(import);
 use File::Basename qw(dirname);
 use JSON::PP;
 
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
 
 ####################################################################################################################################
 # File constants
@@ -90,7 +90,7 @@ sub new
     $self->{strExeCacheDeploy} = $self->{strDocPath} . "/resource/exe.cache";
 
     # Load the manifest
-    $self->{oManifestXml} = new DocDynamo::Common::Doc("$self->{strDocPath}/manifest.xml");
+    $self->{oManifestXml} = new docDynamo::Doc::Doc("$self->{strDocPath}/manifest.xml");
 
     # Iterate the sources
     $self->{oManifest} = {};
@@ -114,7 +114,7 @@ sub new
             next;
         }
 
-        $$oSourceHash{doc} = new DocDynamo::Common::Doc("$self->{strDocPath}/xml/${strKey}.xml");
+        $$oSourceHash{doc} = new docDynamo::Doc::Doc("$self->{strDocPath}/xml/${strKey}.xml");
 
         # Read variables from source
         $self->variableListParse($$oSourceHash{doc}->nodeGet('variable-list', false), $oVariableOverride);

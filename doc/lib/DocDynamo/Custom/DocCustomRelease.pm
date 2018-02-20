@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC RELEASE MODULE
 ####################################################################################################################################
-package DocDynamo::Custom::DocCustomRelease;
+package docDynamo::Custom::DocCustomRelease;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -10,11 +10,11 @@ use Carp qw(confess);
 use Exporter qw(import);
     our @EXPORT = qw();
 
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
 use pgBackRestBuild::Config::Data;
 
-use DocDynamo::Common::DocRender;
+use docDynamo::Doc::DocRender;
 
 ####################################################################################################################################
 # XML node constants
@@ -258,7 +258,7 @@ sub docGet
     my $strOperation = logDebugParam(__PACKAGE__ . '->docGet');
 
     # Create the doc
-    my $oDoc = new DocDynamo::Common::Doc();
+    my $oDoc = new docDynamo::Doc::Doc();
     $oDoc->paramSet('title', $self->{oDoc}->paramGet('title'));
     $oDoc->paramSet('toc-number', $self->{oDoc}->paramGet('toc-number'));
 

@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC LATEX MODULE
 ####################################################################################################################################
-package DocDynamo::Latex::DocLatex;
+package docDynamo::Latex::DocLatex;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -16,16 +16,16 @@ use File::Copy;
 use POSIX qw(strftime);
 use Storable qw(dclone);
 
-use pgBackRest::Common::Exception;
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
-use pgBackRest::Version;
+use docDynamo::Common::Exception;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
+use docDynamo::Version;
 
 use pgBackRestTest::Common::ExecuteTest;
 
-use DocDynamo::Common::DocConfig;
-use DocDynamo::Common::DocManifest;
-use DocDynamo::Latex::DocLatexSection;
+use docDynamo::Doc::DocConfig;
+use docDynamo::Doc::DocManifest;
+use docDynamo::Latex::DocLatexSection;
 
 ####################################################################################################################################
 # CONSTRUCTOR
@@ -110,7 +110,7 @@ sub process
         eval
         {
             my $oDocLatexSection =
-                new DocDynamo::Latex::DocLatexSection($self->{oManifest}, $strPageId, $self->{bExe});
+                new docDynamo::Latex::DocLatexSection($self->{oManifest}, $strPageId, $self->{bExe});
 
             # Retrieve the title and subtitle from the page
             my $oPage = $oDocLatexSection->{oDoc};
@@ -144,7 +144,7 @@ sub process
                 $self->{oManifest}->cacheReset($$oRenderOut{source});
 
                 my $oDocLatexSection =
-                    new DocDynamo::Latex::DocLatexSection($self->{oManifest}, $strPageId, $self->{bExe});
+                    new docDynamo::Latex::DocLatexSection($self->{oManifest}, $strPageId, $self->{bExe});
 
                 # Save the html page
                 $strLatex .= $oDocLatexSection->process();

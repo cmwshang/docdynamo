@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC HTML SITE MODULE
 ####################################################################################################################################
-package DocDynamo::Html::DocHtmlSite;
+package docDynamo::Html::DocHtmlSite;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -16,16 +16,16 @@ use File::Copy;
 use POSIX qw(strftime);
 use Storable qw(dclone);
 
-use pgBackRest::Common::Exception;
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
-use pgBackRest::Version;
+use docDynamo::Common::Exception;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
+use docDynamo::Version;
 
 use pgBackRestTest::Common::ExecuteTest;
 
-use DocDynamo::Common::DocConfig;
-use DocDynamo::Common::DocManifest;
-use DocDynamo::Html::DocHtmlPage;
+use docDynamo::Doc::DocConfig;
+use docDynamo::Doc::DocManifest;
+use docDynamo::Html::DocHtmlPage;
 
 ####################################################################################################################################
 # CONSTRUCTOR
@@ -136,7 +136,7 @@ sub process
         eval
         {
             $strHtml = $self->{oManifest}->variableReplace(
-                new DocDynamo::Html::DocHtmlPage(
+                new docDynamo::Html::DocHtmlPage(
                     $self->{oManifest}, $strPageId, $bMenu, $self->{bExe}, $bCompact,
                     ${$self->{oManifest}->storage()->get($self->{strCssFile})}, $bPretty)->process());
 
@@ -152,7 +152,7 @@ sub process
                 $self->{oManifest}->cacheReset($$oRenderOut{source});
 
                 $strHtml = $self->{oManifest}->variableReplace(
-                    new DocDynamo::Html::DocHtmlPage(
+                    new docDynamo::Html::DocHtmlPage(
                         $self->{oManifest}, $strPageId, $bMenu, $self->{bExe}, $bCompact,
                         ${$self->{oManifest}->storage()->get($self->{strCssFile})}, $bPretty)->process());
             }

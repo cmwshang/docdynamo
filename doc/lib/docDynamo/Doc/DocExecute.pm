@@ -1,8 +1,8 @@
 ####################################################################################################################################
 # DOC EXECUTE MODULE
 ####################################################################################################################################
-package DocDynamo::Common::DocExecute;
-use parent 'DocDynamo::Common::DocRender';
+package docDynamo::Doc::DocExecute;
+use parent 'docDynamo::Doc::DocRender';
 
 use strict;
 use warnings FATAL => qw(all);
@@ -13,15 +13,15 @@ use Exporter qw(import);
     our @EXPORT = qw();
 use Storable qw(dclone);
 
-use pgBackRest::Common::Exception;
+use docDynamo::Common::Exception;
 use pgBackRest::Common::Ini;
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
-use pgBackRest::Version;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
+use docDynamo::Version;
 
 use pgBackRestBuild::Config::Data;
 
-use DocDynamo::Common::DocManifest;
+use docDynamo::Doc::DocManifest;
 
 use pgBackRestTest::Common::ExecuteTest;
 use pgBackRestTest::Common::HostTest;
@@ -488,176 +488,176 @@ sub configKey
     );
 }
 
-####################################################################################################################################
-# backrestConfig
-####################################################################################################################################
-sub backrestConfig
-{
-    my $self = shift;
-
-    # Assign function parameters, defaults, and log debug info
-    my
-    (
-        $strOperation,
-        $oSection,
-        $oConfig,
-        $iDepth
-    ) =
-        logDebugParam
-        (
-            __PACKAGE__ . '->backrestConfig', \@_,
-            {name => 'oSection'},
-            {name => 'oConfig'},
-            {name => 'iDepth'}
-        );
-
-    # Working variables
-    my $hCacheKey = $self->configKey($oConfig);
-    my $strFile = $$hCacheKey{file};
-    my $strConfig = undef;
-
-    &log(DEBUG, ('    ' x $iDepth) . 'process backrest config: ' . $$hCacheKey{file});
-
-    if ($self->{bExe} && $self->isRequired($oSection))
-    {
-        my ($bCacheHit, $strCacheType, $hCacheKey, $hCacheValue) = $self->cachePop('cfg-' . BACKREST_EXE, $hCacheKey);
-
-        if ($bCacheHit)
-        {
-            $strConfig = defined($$hCacheValue{config}) ? join("\n", @{$$hCacheValue{config}}) : undef;
-        }
-        else
-        {
-            # Check that the host is valid
-            my $strHostName = $self->{oManifest}->variableReplace($oConfig->paramGet('host'));
-            my $oHost = $self->{host}{$strHostName};
-
-            if (!defined($oHost))
-            {
-                confess &log(ERROR, "cannot configure backrest on host ${strHostName} because the host does not exist");
-            }
-
-            # Reset all options
-            if ($oConfig->paramTest('reset', 'y'))
-            {
-                delete(${$self->{config}}{$strHostName}{$$hCacheKey{file}})
-            }
-
-            foreach my $oOption ($oConfig->nodeList('backrest-config-option'))
-            {
-                my $strSection = $self->{oManifest}->variableReplace($oOption->paramGet('section'));
-                my $strKey = $self->{oManifest}->variableReplace($oOption->paramGet('key'));
-                my $strValue;
-
-                if (!$oOption->paramTest('remove', 'y'))
-                {
-                    $strValue = $self->{oManifest}->variableReplace(trim($oOption->valueGet(false)));
-                }
-
-                if (!defined($strValue))
-                {
-                    delete(${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection}{$strKey});
-
-                    if (keys(%{${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection}}) == 0)
-                    {
-                        delete(${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection});
-                    }
-
-                    &log(DEBUG, ('    ' x ($iDepth + 1)) . "reset ${strSection}->${strKey}");
-                }
-                else
-                {
-                    # Make sure the specified option exists
-                    # ??? This is too simplistic to handle new indexed options.  The check below works for now but it would be good
-                    # ??? to bring back more sophisticated checking in the future.
-                    # if (!defined($rhConfigDefineIndex->{$strKey}))
-                    # {
-                    #     confess &log(ERROR, "option ${strKey} does not exist");
-                    # }
-
-                    # If this option is a hash and the value is already set then append to the array
-                    if (defined($rhConfigDefineIndex->{$strKey}) &&
-                        $rhConfigDefineIndex->{$strKey}{&CFGDEF_TYPE} eq CFGDEF_TYPE_HASH &&
-                        defined(${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection}{$strKey}))
-                    {
-                        my @oValue = ();
-                        my $strHashValue = ${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection}{$strKey};
-
-                        # If there is only one key/value
-                        if (ref(\$strHashValue) eq 'SCALAR')
-                        {
-                            push(@oValue, $strHashValue);
-                        }
-                        # Else if there is an array of values
-                        else
-                        {
-                            @oValue = @{$strHashValue};
-                        }
-
-                        push(@oValue, $strValue);
-                        ${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection}{$strKey} = \@oValue;
-                    }
-                    # else just set the value
-                    else
-                    {
-                        ${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection}{$strKey} = $strValue;
-                    }
-
-                    &log(DEBUG, ('    ' x ($iDepth + 1)) . "set ${strSection}->${strKey} = ${strValue}");
-                }
-            }
-
-            my $strLocalFile = '/home/' . DOC_USER . '/data/pgbackrest.conf';
-
-            # Save the ini file
-            $self->{oManifest}->storage()->put($strLocalFile, iniRender($self->{config}{$strHostName}{$$hCacheKey{file}}, true));
-
-            $oHost->copyTo(
-                $strLocalFile, $$hCacheKey{file},
-                $self->{oManifest}->variableReplace($oConfig->paramGet('owner', false, 'postgres:postgres')), '640');
-
-            # Remove the log-console-stderr option before pushing into the cache
-            # ??? This is not very pretty and should be replaced with a general way to hide config options
-            my $oConfigClean = dclone($self->{config}{$strHostName}{$$hCacheKey{file}});
-            delete($$oConfigClean{&CFGDEF_SECTION_GLOBAL}{&CFGOPT_LOG_LEVEL_STDERR});
-            delete($$oConfigClean{&CFGDEF_SECTION_GLOBAL}{&CFGOPT_LOG_TIMESTAMP});
-            delete($$oConfigClean{&CFGDEF_SECTION_GLOBAL}{&CFGOPT_REPO_S3_VERIFY_SSL});
-
-            if (keys(%{$$oConfigClean{&CFGDEF_SECTION_GLOBAL}}) == 0)
-            {
-                delete($$oConfigClean{&CFGDEF_SECTION_GLOBAL});
-            }
-
-            $self->{oManifest}->storage()->put("${strLocalFile}.clean", iniRender($oConfigClean, true));
-
-            # Push config file into the cache
-            $strConfig = ${$self->{oManifest}->storage()->get("${strLocalFile}.clean")};
-
-            my @stryConfig = undef;
-
-            if (trim($strConfig) ne '')
-            {
-                @stryConfig = split("\n", $strConfig);
-            }
-
-            $$hCacheValue{config} = \@stryConfig;
-            $self->cachePush($strCacheType, $hCacheKey, $hCacheValue);
-        }
-    }
-    else
-    {
-        $strConfig = 'Config suppressed for testing';
-    }
-
-    # Return from function and log return values if any
-    return logDebugReturn
-    (
-        $strOperation,
-        {name => 'strFile', value => $strFile, trace => true},
-        {name => 'strConfig', value => $strConfig, trace => true},
-        {name => 'bShow', value => $oConfig->paramTest('show', 'n') ? false : true, trace => true}
-    );
-}
+# ####################################################################################################################################
+# # backrestConfig
+# ####################################################################################################################################
+# sub backrestConfig
+# {
+#     my $self = shift;
+#
+#     # Assign function parameters, defaults, and log debug info
+#     my
+#     (
+#         $strOperation,
+#         $oSection,
+#         $oConfig,
+#         $iDepth
+#     ) =
+#         logDebugParam
+#         (
+#             __PACKAGE__ . '->backrestConfig', \@_,
+#             {name => 'oSection'},
+#             {name => 'oConfig'},
+#             {name => 'iDepth'}
+#         );
+#
+#     # Working variables
+#     my $hCacheKey = $self->configKey($oConfig);
+#     my $strFile = $$hCacheKey{file};
+#     my $strConfig = undef;
+#
+#     &log(DEBUG, ('    ' x $iDepth) . 'process backrest config: ' . $$hCacheKey{file});
+#
+#     if ($self->{bExe} && $self->isRequired($oSection))
+#     {
+#         my ($bCacheHit, $strCacheType, $hCacheKey, $hCacheValue) = $self->cachePop('cfg-' . BACKREST_EXE, $hCacheKey);
+#
+#         if ($bCacheHit)
+#         {
+#             $strConfig = defined($$hCacheValue{config}) ? join("\n", @{$$hCacheValue{config}}) : undef;
+#         }
+#         else
+#         {
+#             # Check that the host is valid
+#             my $strHostName = $self->{oManifest}->variableReplace($oConfig->paramGet('host'));
+#             my $oHost = $self->{host}{$strHostName};
+#
+#             if (!defined($oHost))
+#             {
+#                 confess &log(ERROR, "cannot configure backrest on host ${strHostName} because the host does not exist");
+#             }
+#
+#             # Reset all options
+#             if ($oConfig->paramTest('reset', 'y'))
+#             {
+#                 delete(${$self->{config}}{$strHostName}{$$hCacheKey{file}})
+#             }
+#
+#             foreach my $oOption ($oConfig->nodeList('backrest-config-option'))
+#             {
+#                 my $strSection = $self->{oManifest}->variableReplace($oOption->paramGet('section'));
+#                 my $strKey = $self->{oManifest}->variableReplace($oOption->paramGet('key'));
+#                 my $strValue;
+#
+#                 if (!$oOption->paramTest('remove', 'y'))
+#                 {
+#                     $strValue = $self->{oManifest}->variableReplace(trim($oOption->valueGet(false)));
+#                 }
+#
+#                 if (!defined($strValue))
+#                 {
+#                     delete(${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection}{$strKey});
+#
+#                     if (keys(%{${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection}}) == 0)
+#                     {
+#                         delete(${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection});
+#                     }
+#
+#                     &log(DEBUG, ('    ' x ($iDepth + 1)) . "reset ${strSection}->${strKey}");
+#                 }
+#                 else
+#                 {
+#                     # Make sure the specified option exists
+#                     # ??? This is too simplistic to handle new indexed options.  The check below works for now but it would be good
+#                     # ??? to bring back more sophisticated checking in the future.
+#                     # if (!defined($rhConfigDefineIndex->{$strKey}))
+#                     # {
+#                     #     confess &log(ERROR, "option ${strKey} does not exist");
+#                     # }
+#
+#                     # If this option is a hash and the value is already set then append to the array
+#                     if (defined($rhConfigDefineIndex->{$strKey}) &&
+#                         $rhConfigDefineIndex->{$strKey}{&CFGDEF_TYPE} eq CFGDEF_TYPE_HASH &&
+#                         defined(${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection}{$strKey}))
+#                     {
+#                         my @oValue = ();
+#                         my $strHashValue = ${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection}{$strKey};
+#
+#                         # If there is only one key/value
+#                         if (ref(\$strHashValue) eq 'SCALAR')
+#                         {
+#                             push(@oValue, $strHashValue);
+#                         }
+#                         # Else if there is an array of values
+#                         else
+#                         {
+#                             @oValue = @{$strHashValue};
+#                         }
+#
+#                         push(@oValue, $strValue);
+#                         ${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection}{$strKey} = \@oValue;
+#                     }
+#                     # else just set the value
+#                     else
+#                     {
+#                         ${$self->{config}}{$strHostName}{$$hCacheKey{file}}{$strSection}{$strKey} = $strValue;
+#                     }
+#
+#                     &log(DEBUG, ('    ' x ($iDepth + 1)) . "set ${strSection}->${strKey} = ${strValue}");
+#                 }
+#             }
+#
+#             my $strLocalFile = '/home/' . DOC_USER . '/data/pgbackrest.conf';
+#
+#             # Save the ini file
+#             $self->{oManifest}->storage()->put($strLocalFile, iniRender($self->{config}{$strHostName}{$$hCacheKey{file}}, true));
+#
+#             $oHost->copyTo(
+#                 $strLocalFile, $$hCacheKey{file},
+#                 $self->{oManifest}->variableReplace($oConfig->paramGet('owner', false, 'postgres:postgres')), '640');
+#
+#             # Remove the log-console-stderr option before pushing into the cache
+#             # ??? This is not very pretty and should be replaced with a general way to hide config options
+#             my $oConfigClean = dclone($self->{config}{$strHostName}{$$hCacheKey{file}});
+#             delete($$oConfigClean{&CFGDEF_SECTION_GLOBAL}{&CFGOPT_LOG_LEVEL_STDERR});
+#             delete($$oConfigClean{&CFGDEF_SECTION_GLOBAL}{&CFGOPT_LOG_TIMESTAMP});
+#             delete($$oConfigClean{&CFGDEF_SECTION_GLOBAL}{&CFGOPT_REPO_S3_VERIFY_SSL});
+#
+#             if (keys(%{$$oConfigClean{&CFGDEF_SECTION_GLOBAL}}) == 0)
+#             {
+#                 delete($$oConfigClean{&CFGDEF_SECTION_GLOBAL});
+#             }
+#
+#             $self->{oManifest}->storage()->put("${strLocalFile}.clean", iniRender($oConfigClean, true));
+#
+#             # Push config file into the cache
+#             $strConfig = ${$self->{oManifest}->storage()->get("${strLocalFile}.clean")};
+#
+#             my @stryConfig = undef;
+#
+#             if (trim($strConfig) ne '')
+#             {
+#                 @stryConfig = split("\n", $strConfig);
+#             }
+#
+#             $$hCacheValue{config} = \@stryConfig;
+#             $self->cachePush($strCacheType, $hCacheKey, $hCacheValue);
+#         }
+#     }
+#     else
+#     {
+#         $strConfig = 'Config suppressed for testing';
+#     }
+#
+#     # Return from function and log return values if any
+#     return logDebugReturn
+#     (
+#         $strOperation,
+#         {name => 'strFile', value => $strFile, trace => true},
+#         {name => 'strConfig', value => $strConfig, trace => true},
+#         {name => 'bShow', value => $oConfig->paramTest('show', 'n') ? false : true, trace => true}
+#     );
+# }
 
 ####################################################################################################################################
 # postgresConfig

@@ -24,20 +24,20 @@ use lib dirname(dirname($0)) . '/lib';
 use lib dirname(dirname($0)) . '/build/lib';
 use lib dirname(dirname($0)) . '/test/lib';
 
-use DocDynamo::Common::Doc;
-use DocDynamo::Common::DocConfig;
-use DocDynamo::Common::DocManifest;
-use DocDynamo::Common::DocRender;
-use DocDynamo::Html::DocHtmlSite;
-use DocDynamo::Latex::DocLatex;
-use DocDynamo::Markdown::DocMarkdown;
+use docDynamo::Doc::Doc;
+use docDynamo::Doc::DocConfig;
+use docDynamo::Doc::DocManifest;
+use docDynamo::Doc::DocRender;
+use docDynamo::Html::DocHtmlSite;
+use docDynamo::Latex::DocLatex;
+use docDynamo::Markdown::DocMarkdown;
 
-use pgBackRest::Common::Exception;
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
+use docDynamo::Common::Exception;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
 use pgBackRest::Storage::Local;
 use pgBackRest::Storage::Posix::Driver;
-use pgBackRest::Version;
+use docDynamo::Version;
 
 ####################################################################################################################################
 # Usage
@@ -127,7 +127,7 @@ eval
     # Display version and exit if requested
     if ($bHelp || $bVersion)
     {
-        print BACKREST_NAME . ' ' . BACKREST_VERSION . " Documentation Builder\n";
+        print DOCDYNAMO_NAME . ' ' . DOCDYNAMO_VERSION . " Documentation Builder\n";
 
         if ($bHelp)
         {
@@ -224,7 +224,7 @@ eval
     }
 
     # Load the manifest and the source files
-    my $oManifest = new DocDynamo::Common::DocManifest(
+    my $oManifest = new docDynamo::Doc::DocManifest(
         $oStorageDoc, \@stryKeyword, \@stryRequire, \@stryInclude, \@stryExclude, $oVariableOverride, $strDocPath, $bDeploy,
         $bCacheOnly);
 
@@ -258,7 +258,7 @@ eval
         if ($strOutput eq 'markdown')
         {
             my $oMarkdown =
-                new DocDynamo::Markdown::DocMarkdown
+                new docDynamo::Markdown::DocMarkdown
                 (
                     $oManifest,
                     "${strBasePath}/xml",
@@ -271,10 +271,10 @@ eval
         elsif (($strOutput eq 'help' || $strOutput eq 'man') && $oManifest->isBackRest())
         {
             # Generate the command-line help
-            my $oRender = new DocDynamo::Common::DocRender('text', $oManifest, !$bNoExe);
+            my $oRender = new docDynamo::Doc::DocRender('text', $oManifest, !$bNoExe);
             my $oDocConfig =
-                new DocDynamo::Common::DocConfig(
-                    new DocDynamo::Common::Doc("${strBasePath}/xml/reference.xml"), $oRender);
+                new docDynamo::Doc::DocConfig(
+                    new docDynamo::Doc::Doc("${strBasePath}/xml/reference.xml"), $oRender);
 
             if ($strOutput eq 'help')
             {
@@ -284,13 +284,13 @@ eval
             {
                 $oStorageDoc->pathCreate(
                     "${strBasePath}/output/man", {strMode => '0770', bIgnoreExists => true, bCreateParent => true});
-                $oStorageDoc->put("${strBasePath}/output/man/" . lc(BACKREST_NAME) . '.1.txt', $oDocConfig->manGet($oManifest));
+                $oStorageDoc->put("${strBasePath}/output/man/" . lc(DOCDYNAMO_NAME) . '.1.txt', $oDocConfig->manGet($oManifest));
             }
         }
         elsif ($strOutput eq 'html')
         {
             my $oHtmlSite =
-                new DocDynamo::Html::DocHtmlSite
+                new docDynamo::Html::DocHtmlSite
                 (
                     $oManifest,
                     "${strBasePath}/xml",
@@ -308,7 +308,7 @@ eval
         elsif ($strOutput eq 'pdf')
         {
             my $oLatex =
-                new DocDynamo::Latex::DocLatex
+                new docDynamo::Latex::DocLatex
                 (
                     $oManifest,
                     "${strBasePath}/xml",

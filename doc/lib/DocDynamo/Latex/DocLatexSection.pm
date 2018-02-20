@@ -1,8 +1,8 @@
 ####################################################################################################################################
 # DOC LATEX SECTION MODULE
 ####################################################################################################################################
-package DocDynamo::Latex::DocLatexSection;
-use parent 'DocDynamo::Common::DocExecute';
+package docDynamo::Latex::DocLatexSection;
+use parent 'docDynamo::Doc::DocExecute';
 
 use strict;
 use warnings FATAL => qw(all);
@@ -11,12 +11,11 @@ use Carp qw(confess);
 use Exporter qw(import);
     our @EXPORT = qw();
 
-use pgBackRest::Common::Ini;
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
 
-use DocDynamo::Common::DocConfig;
-use DocDynamo::Common::DocManifest;
+use docDynamo::Doc::DocConfig;
+use docDynamo::Doc::DocManifest;
 
 ####################################################################################################################################
 # CONSTRUCTOR

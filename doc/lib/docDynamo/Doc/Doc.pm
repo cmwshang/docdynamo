@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC MODULE
 ####################################################################################################################################
-package DocDynamo::Common::Doc;
+package docDynamo::Doc::Doc;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -12,8 +12,8 @@ use File::Basename qw(dirname);
 use Scalar::Util qw(blessed);
 use XML::Checker::Parser;
 
-use pgBackRest::Common::Log;
-use pgBackRest::Common::String;
+use docDynamo::Common::Log;
+use docDynamo::Common::String;
 
 ####################################################################################################################################
 # CONSTRUCTOR
@@ -825,7 +825,7 @@ sub textSet
     my $self = shift;
     my $oText = shift;
 
-    if (blessed($oText) && $oText->isa('DocDynamo::Common::Doc'))
+    if (blessed($oText) && $oText->isa('docDynamo::Doc::Doc'))
     {
         $oText = $oText->{oDoc};
     }

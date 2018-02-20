@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC HTML ELEMENT MODULE
 ####################################################################################################################################
-package DocDynamo::Html::DocHtmlElement;
+package docDynamo::Html::DocHtmlElement;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -11,7 +11,7 @@ use Exporter qw(import);
     our @EXPORT = qw();
 use Scalar::Util qw(blessed);
 
-use pgBackRest::Common::Log;
+use docDynamo::Common::Log;
 
 ####################################################################################################################################
 # Html Element Types
@@ -107,7 +107,7 @@ sub addNew
             {name => 'oParam', required => false, trace => true}
         );
 
-    my $oElement = new DocDynamo::Html::DocHtmlElement($strType, $strClass, $oParam);
+    my $oElement = new docDynamo::Html::DocHtmlElement($strType, $strClass, $oParam);
 
     $self->add($oElement);
 
@@ -139,7 +139,7 @@ sub add
             {name => 'oElement', trace => true}
         );
 
-    if (!(blessed($oElement) && $oElement->isa('DocDynamo::Html::DocHtmlElement')))
+    if (!(blessed($oElement) && $oElement->isa('docDynamo::Html::DocHtmlElement')))
     {
         confess &log(ASSERT, 'oElement must be a valid element object');
     }
