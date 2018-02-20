@@ -1,8 +1,8 @@
 ####################################################################################################################################
 # DOC EXECUTE MODULE
 ####################################################################################################################################
-package BackRestDoc::Common::DocExecute;
-use parent 'BackRestDoc::Common::DocRender';
+package DocDynamo::Common::DocExecute;
+use parent 'DocDynamo::Common::DocRender';
 
 use strict;
 use warnings FATAL => qw(all);
@@ -21,7 +21,7 @@ use pgBackRest::Version;
 
 use pgBackRestBuild::Config::Data;
 
-use BackRestDoc::Common::DocManifest;
+use DocDynamo::Common::DocManifest;
 
 use pgBackRestTest::Common::ExecuteTest;
 use pgBackRestTest::Common::HostTest;

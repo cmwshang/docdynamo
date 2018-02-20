@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC RENDER MODULE
 ####################################################################################################################################
-package BackRestDoc::Common::DocRender;
+package DocDynamo::Common::DocRender;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -15,7 +15,7 @@ use Storable qw(dclone);
 use pgBackRest::Common::Log;
 use pgBackRest::Common::String;
 
-use BackRestDoc::Common::DocManifest;
+use DocDynamo::Common::DocManifest;
 
 ####################################################################################################################################
 # XML tag/param constants
@@ -194,7 +194,7 @@ sub new
         if ($self->{oManifest}->isBackRest())
         {
             $self->{oReference} =
-                new BackRestDoc::Common::DocConfig(${$self->{oManifest}->sourceGet('reference')}{doc}, $self);
+                new DocDynamo::Common::DocConfig(${$self->{oManifest}->sourceGet('reference')}{doc}, $self);
         }
 
         if (defined($$oRenderOut{source}) && $$oRenderOut{source} eq 'reference' && $self->{oManifest}->isBackRest())
@@ -214,11 +214,11 @@ sub new
         }
         elsif (defined($$oRenderOut{source}) && $$oRenderOut{source} eq 'release' && $self->{oManifest}->isBackRest())
         {
-            require BackRestDoc::Custom::DocCustomRelease;
-            BackRestDoc::Custom::DocCustomRelease->import();
+            require DocDynamo::Custom::DocCustomRelease;
+            DocDynamo::Custom::DocCustomRelease->import();
 
             $self->{oDoc} =
-                (new BackRestDoc::Custom::DocCustomRelease(
+                (new DocDynamo::Custom::DocCustomRelease(
                     ${$self->{oManifest}->sourceGet('release')}{doc}, $self->{oManifest}->keywordMatch('dev')))->docGet();
         }
         else

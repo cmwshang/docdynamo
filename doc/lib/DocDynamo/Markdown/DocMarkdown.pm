@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC MARKDOWN MODULE
 ####################################################################################################################################
-package BackRestDoc::Markdown::DocMarkdown;
+package DocDynamo::Markdown::DocMarkdown;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -21,9 +21,9 @@ use pgBackRest::Version;
 
 use pgBackRestTest::Common::ExecuteTest;
 
-use BackRestDoc::Common::DocConfig;
-use BackRestDoc::Common::DocManifest;
-use BackRestDoc::Markdown::DocMarkdownRender;
+use DocDynamo::Common::DocConfig;
+use DocDynamo::Common::DocManifest;
+use DocDynamo::Markdown::DocMarkdownRender;
 
 ####################################################################################################################################
 # CONSTRUCTOR
@@ -96,7 +96,7 @@ sub process
 
         # Save the html page
         $self->{oManifest}->storage()->put(
-            $strFile, $self->{oManifest}->variableReplace((new BackRestDoc::Markdown::DocMarkdownRender($self->{oManifest},
+            $strFile, $self->{oManifest}->variableReplace((new DocDynamo::Markdown::DocMarkdownRender($self->{oManifest},
             $strRenderOutId, $self->{bExe}))->process()));
     }
 

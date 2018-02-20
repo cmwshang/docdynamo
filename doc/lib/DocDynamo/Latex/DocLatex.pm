@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC LATEX MODULE
 ####################################################################################################################################
-package BackRestDoc::Latex::DocLatex;
+package DocDynamo::Latex::DocLatex;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -23,9 +23,9 @@ use pgBackRest::Version;
 
 use pgBackRestTest::Common::ExecuteTest;
 
-use BackRestDoc::Common::DocConfig;
-use BackRestDoc::Common::DocManifest;
-use BackRestDoc::Latex::DocLatexSection;
+use DocDynamo::Common::DocConfig;
+use DocDynamo::Common::DocManifest;
+use DocDynamo::Latex::DocLatexSection;
 
 ####################################################################################################################################
 # CONSTRUCTOR
@@ -110,7 +110,7 @@ sub process
         eval
         {
             my $oDocLatexSection =
-                new BackRestDoc::Latex::DocLatexSection($self->{oManifest}, $strPageId, $self->{bExe});
+                new DocDynamo::Latex::DocLatexSection($self->{oManifest}, $strPageId, $self->{bExe});
 
             # Retrieve the title and subtitle from the page
             my $oPage = $oDocLatexSection->{oDoc};
@@ -144,7 +144,7 @@ sub process
                 $self->{oManifest}->cacheReset($$oRenderOut{source});
 
                 my $oDocLatexSection =
-                    new BackRestDoc::Latex::DocLatexSection($self->{oManifest}, $strPageId, $self->{bExe});
+                    new DocDynamo::Latex::DocLatexSection($self->{oManifest}, $strPageId, $self->{bExe});
 
                 # Save the html page
                 $strLatex .= $oDocLatexSection->process();

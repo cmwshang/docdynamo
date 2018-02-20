@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC CONFIG MODULE
 ####################################################################################################################################
-package BackRestDoc::Common::DocConfig;
+package DocDynamo::Common::DocConfig;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -838,7 +838,7 @@ sub helpConfigDocGet
         }
     }
 
-    my $oDoc = new BackRestDoc::Common::Doc();
+    my $oDoc = new DocDynamo::Common::Doc();
     $oDoc->paramSet('title', $oConfigDoc->paramGet('title'));
 
     # set the description for use as a meta tag
@@ -894,7 +894,7 @@ sub helpCommandDocGet
     my $oOperationDoc = $self->{oDoc}->nodeGet('operation');
     my $oOptionDefine = cfgDefine();
 
-    my $oDoc = new BackRestDoc::Common::Doc();
+    my $oDoc = new DocDynamo::Common::Doc();
     $oDoc->paramSet('title', $oOperationDoc->paramGet('title'));
 
     # set the description for use as a meta tag

@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC MODULE
 ####################################################################################################################################
-package BackRestDoc::Common::Doc;
+package DocDynamo::Common::Doc;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -825,7 +825,7 @@ sub textSet
     my $self = shift;
     my $oText = shift;
 
-    if (blessed($oText) && $oText->isa('BackRestDoc::Common::Doc'))
+    if (blessed($oText) && $oText->isa('DocDynamo::Common::Doc'))
     {
         $oText = $oText->{oDoc};
     }

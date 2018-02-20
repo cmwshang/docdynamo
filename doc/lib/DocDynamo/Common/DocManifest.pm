@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC MANIFEST MODULE
 ####################################################################################################################################
-package BackRestDoc::Common::DocManifest;
+package DocDynamo::Common::DocManifest;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -90,7 +90,7 @@ sub new
     $self->{strExeCacheDeploy} = $self->{strDocPath} . "/resource/exe.cache";
 
     # Load the manifest
-    $self->{oManifestXml} = new BackRestDoc::Common::Doc("$self->{strDocPath}/manifest.xml");
+    $self->{oManifestXml} = new DocDynamo::Common::Doc("$self->{strDocPath}/manifest.xml");
 
     # Iterate the sources
     $self->{oManifest} = {};
@@ -99,7 +99,7 @@ sub new
     {
         my $oSourceHash = {};
         my $strKey = $oSource->paramGet('key');
-        my $strSourceType = $oSource->paramGet('type', false);
+        my $strSourceType = $oSource->paramGet('type', false);  # CSHANG This indicates if custom
 
         logDebugMisc
         (
@@ -114,7 +114,7 @@ sub new
             next;
         }
 
-        $$oSourceHash{doc} = new BackRestDoc::Common::Doc("$self->{strDocPath}/xml/${strKey}.xml");
+        $$oSourceHash{doc} = new DocDynamo::Common::Doc("$self->{strDocPath}/xml/${strKey}.xml");
 
         # Read variables from source
         $self->variableListParse($$oSourceHash{doc}->nodeGet('variable-list', false), $oVariableOverride);

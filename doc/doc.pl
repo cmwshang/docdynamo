@@ -24,13 +24,13 @@ use lib dirname(dirname($0)) . '/lib';
 use lib dirname(dirname($0)) . '/build/lib';
 use lib dirname(dirname($0)) . '/test/lib';
 
-use BackRestDoc::Common::Doc;
-use BackRestDoc::Common::DocConfig;
-use BackRestDoc::Common::DocManifest;
-use BackRestDoc::Common::DocRender;
-use BackRestDoc::Html::DocHtmlSite;
-use BackRestDoc::Latex::DocLatex;
-use BackRestDoc::Markdown::DocMarkdown;
+use DocDynamo::Common::Doc;
+use DocDynamo::Common::DocConfig;
+use DocDynamo::Common::DocManifest;
+use DocDynamo::Common::DocRender;
+use DocDynamo::Html::DocHtmlSite;
+use DocDynamo::Latex::DocLatex;
+use DocDynamo::Markdown::DocMarkdown;
 
 use pgBackRest::Common::Exception;
 use pgBackRest::Common::Log;
@@ -224,7 +224,7 @@ eval
     }
 
     # Load the manifest and the source files
-    my $oManifest = new BackRestDoc::Common::DocManifest(
+    my $oManifest = new DocDynamo::Common::DocManifest(
         $oStorageDoc, \@stryKeyword, \@stryRequire, \@stryInclude, \@stryExclude, $oVariableOverride, $strDocPath, $bDeploy,
         $bCacheOnly);
 
@@ -247,6 +247,7 @@ eval
 
     for my $strOutput (@stryOutput)
     {
+        # If this is backrest and is not the help or man - or if it is not backrest at all, then render the output
         if (!(($strOutput eq 'help' || $strOutput eq 'man') && $oManifest->isBackRest()))
         {
             $oManifest->renderGet($strOutput);
@@ -257,7 +258,7 @@ eval
         if ($strOutput eq 'markdown')
         {
             my $oMarkdown =
-                new BackRestDoc::Markdown::DocMarkdown
+                new DocDynamo::Markdown::DocMarkdown
                 (
                     $oManifest,
                     "${strBasePath}/xml",
@@ -270,10 +271,10 @@ eval
         elsif (($strOutput eq 'help' || $strOutput eq 'man') && $oManifest->isBackRest())
         {
             # Generate the command-line help
-            my $oRender = new BackRestDoc::Common::DocRender('text', $oManifest, !$bNoExe);
+            my $oRender = new DocDynamo::Common::DocRender('text', $oManifest, !$bNoExe);
             my $oDocConfig =
-                new BackRestDoc::Common::DocConfig(
-                    new BackRestDoc::Common::Doc("${strBasePath}/xml/reference.xml"), $oRender);
+                new DocDynamo::Common::DocConfig(
+                    new DocDynamo::Common::Doc("${strBasePath}/xml/reference.xml"), $oRender);
 
             if ($strOutput eq 'help')
             {
@@ -289,7 +290,7 @@ eval
         elsif ($strOutput eq 'html')
         {
             my $oHtmlSite =
-                new BackRestDoc::Html::DocHtmlSite
+                new DocDynamo::Html::DocHtmlSite
                 (
                     $oManifest,
                     "${strBasePath}/xml",
@@ -307,7 +308,7 @@ eval
         elsif ($strOutput eq 'pdf')
         {
             my $oLatex =
-                new BackRestDoc::Latex::DocLatex
+                new DocDynamo::Latex::DocLatex
                 (
                     $oManifest,
                     "${strBasePath}/xml",

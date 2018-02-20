@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC RELEASE MODULE
 ####################################################################################################################################
-package BackRestDoc::Custom::DocCustomRelease;
+package DocDynamo::Custom::DocCustomRelease;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -14,7 +14,7 @@ use pgBackRest::Common::Log;
 use pgBackRest::Common::String;
 use pgBackRestBuild::Config::Data;
 
-use BackRestDoc::Common::DocRender;
+use DocDynamo::Common::DocRender;
 
 ####################################################################################################################################
 # XML node constants
@@ -258,7 +258,7 @@ sub docGet
     my $strOperation = logDebugParam(__PACKAGE__ . '->docGet');
 
     # Create the doc
-    my $oDoc = new BackRestDoc::Common::Doc();
+    my $oDoc = new DocDynamo::Common::Doc();
     $oDoc->paramSet('title', $self->{oDoc}->paramGet('title'));
     $oDoc->paramSet('toc-number', $self->{oDoc}->paramGet('toc-number'));
 

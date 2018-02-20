@@ -1,8 +1,8 @@
 ####################################################################################################################################
 # DOC HTML PAGE MODULE
 ####################################################################################################################################
-package BackRestDoc::Html::DocHtmlPage;
-use parent 'BackRestDoc::Common::DocExecute';
+package DocDynamo::Html::DocHtmlPage;
+use parent 'DocDynamo::Common::DocExecute';
 
 use strict;
 use warnings FATAL => qw(all);
@@ -15,11 +15,11 @@ use Exporter qw(import);
 use pgBackRest::Common::Log;
 use pgBackRest::Common::String;
 
-use BackRestDoc::Common::DocConfig;
-use BackRestDoc::Common::DocManifest;
-use BackRestDoc::Common::DocRender;
-use BackRestDoc::Html::DocHtmlBuilder;
-use BackRestDoc::Html::DocHtmlElement;
+use DocDynamo::Common::DocConfig;
+use DocDynamo::Common::DocManifest;
+use DocDynamo::Common::DocRender;
+use DocDynamo::Html::DocHtmlBuilder;
+use DocDynamo::Html::DocHtmlElement;
 
 ####################################################################################################################################
 # CONSTRUCTOR
@@ -90,7 +90,7 @@ sub process
 
 # CSHANG This is what is required for --out=HTML so even though description in the dtd is not required, it is here
 # CSHANG But maybe could make them optional
-    my $oHtmlBuilder = new BackRestDoc::Html::DocHtmlBuilder(
+    my $oHtmlBuilder = new DocDynamo::Html::DocHtmlBuilder(
         $self->{oManifest}->variableReplace('{[project]}' . (defined($self->{oManifest}->variableGet('project-tagline')) ?
             $self->{oManifest}->variableGet('project-tagline') : '')),
         $self->{oManifest}->variableReplace($strTitle . (defined($strSubTitle) ? " - ${strSubTitle}" : '')),
@@ -250,7 +250,7 @@ sub sectionProcess
         $oSection->paramGet('id');
 
     # Create the section element
-    my $oSectionElement = new BackRestDoc::Html::DocHtmlElement(HTML_DIV, "section${iDepth}");
+    my $oSectionElement = new DocDynamo::Html::DocHtmlElement(HTML_DIV, "section${iDepth}");
 
     # Add the section anchor
     $oSectionElement->addNew(HTML_A, undef, {strId => $strAnchor});
@@ -271,7 +271,7 @@ sub sectionProcess
     my $oSectionTocElement;
     if ($iDepth <= 2)
     {
-        $oSectionTocElement = new BackRestDoc::Html::DocHtmlElement(HTML_DIV, "section${iDepth}-toc");
+        $oSectionTocElement = new DocDynamo::Html::DocHtmlElement(HTML_DIV, "section${iDepth}-toc");
 
         if ($self->{bTocNumber})
         {
@@ -618,7 +618,7 @@ sub backrestConfigProcess
         my $strHostName = $self->{oManifest}->variableReplace($oConfig->paramGet('host'));
 
         # Render the config
-        $oConfigElement = new BackRestDoc::Html::DocHtmlElement(HTML_DIV, "config");
+        $oConfigElement = new DocDynamo::Html::DocHtmlElement(HTML_DIV, "config");
 
         $oConfigElement->
             addNew(HTML_DIV, "config-title",
@@ -675,7 +675,7 @@ sub postgresConfigProcess
     {
         # Render the config
         my $strHostName = $self->{oManifest}->variableReplace($oConfig->paramGet('host'));
-        $oConfigElement = new BackRestDoc::Html::DocHtmlElement(HTML_DIV, "config");
+        $oConfigElement = new DocDynamo::Html::DocHtmlElement(HTML_DIV, "config");
 
         $oConfigElement->
             addNew(HTML_DIV, "config-title",

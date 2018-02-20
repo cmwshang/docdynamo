@@ -1,8 +1,8 @@
 ####################################################################################################################################
 # DOC MARKDOWN RENDER MODULE
 ####################################################################################################################################
-package BackRestDoc::Markdown::DocMarkdownRender;
-use parent 'BackRestDoc::Common::DocExecute';
+package DocDynamo::Markdown::DocMarkdownRender;
+use parent 'DocDynamo::Common::DocExecute';
 
 use strict;
 use warnings FATAL => qw(all);
@@ -18,8 +18,8 @@ use Storable qw(dclone);
 use pgBackRest::Common::Log;
 use pgBackRest::Common::String;
 
-use BackRestDoc::Common::DocConfig;
-use BackRestDoc::Common::DocManifest;
+use DocDynamo::Common::DocConfig;
+use DocDynamo::Common::DocManifest;
 
 ####################################################################################################################################
 # CONSTRUCTOR
@@ -79,7 +79,7 @@ sub process
         $strMarkdown .= ' <br/> ' . $oPage->paramGet('subtitle') . '';
     }
 
-    # my $oHtmlBuilder = new BackRestDoc::Html::DocHtmlBuilder("{[project]} - Reliable PostgreSQL Backup",
+    # my $oHtmlBuilder = new DocDynamo::Html::DocHtmlBuilder("{[project]} - Reliable PostgreSQL Backup",
     #                                                          $strTitle . (defined($strSubTitle) ? " - ${strSubTitle}" : ''),
     #                                                          $self->{bPretty});
     #
@@ -458,7 +458,7 @@ sub backrestConfigProcess
     #     my $strHostName = $self->{oManifest}->variableReplace($oConfig->paramGet('host'));
     #
     #     # Render the config
-    #     $oConfigElement = new BackRestDoc::Html::DocHtmlElement(HTML_DIV, "config");
+    #     $oConfigElement = new DocDynamo::Html::DocHtmlElement(HTML_DIV, "config");
     #
     #     $oConfigElement->
     #         addNew(HTML_DIV, "config-title",
@@ -515,7 +515,7 @@ sub postgresConfigProcess
     # {
     #     # Render the config
     #     my $strHostName = $self->{oManifest}->variableReplace($oConfig->paramGet('host'));
-    #     $oConfigElement = new BackRestDoc::Html::DocHtmlElement(HTML_DIV, "config");
+    #     $oConfigElement = new DocDynamo::Html::DocHtmlElement(HTML_DIV, "config");
     #
     #     $oConfigElement->
     #         addNew(HTML_DIV, "config-title",

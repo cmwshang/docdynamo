@@ -34,7 +34,7 @@
     </variable-list>
 
     <source-list>
-        <source key="index"/>
+        <source key="install"/>
         <source key="usage"/>
         <source key="examples"/>
         <source key="containers"/>
@@ -42,18 +42,20 @@
 
     <render-list>
         <render type="html">
-            <render-source key="index" menu="Home"/>
+            <render-source key="install" menu="Home"/>
             <render-source key="usage" menu="Usage"/>
             <render-source key="examples" menu="Examples"/>
             <render-source key="containers" menu="Containers"/>
         </render>
 
-        <render type="pdf" file="index">
-            <render-source key="index"/>
+        <render type="pdf" file="Crunchy">
+            <render-source key="install"/>
+            <render-source key="usage"/>
+            <render-source key="containers"/>
         </render>
 
         <render type="markdown">
-            <render-source key="index" file="INDEX.md"/>
+            <render-source key="containers" file="CONTAINERS.md"/>
         </render>
     </render-list>
 </doc>

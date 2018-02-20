@@ -1,8 +1,8 @@
 ####################################################################################################################################
 # DOC LATEX SECTION MODULE
 ####################################################################################################################################
-package BackRestDoc::Latex::DocLatexSection;
-use parent 'BackRestDoc::Common::DocExecute';
+package DocDynamo::Latex::DocLatexSection;
+use parent 'DocDynamo::Common::DocExecute';
 
 use strict;
 use warnings FATAL => qw(all);
@@ -15,8 +15,8 @@ use pgBackRest::Common::Ini;
 use pgBackRest::Common::Log;
 use pgBackRest::Common::String;
 
-use BackRestDoc::Common::DocConfig;
-use BackRestDoc::Common::DocManifest;
+use DocDynamo::Common::DocConfig;
+use DocDynamo::Common::DocManifest;
 
 ####################################################################################################################################
 # CONSTRUCTOR

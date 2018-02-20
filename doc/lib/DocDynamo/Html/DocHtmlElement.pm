@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC HTML ELEMENT MODULE
 ####################################################################################################################################
-package BackRestDoc::Html::DocHtmlElement;
+package DocDynamo::Html::DocHtmlElement;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -107,7 +107,7 @@ sub addNew
             {name => 'oParam', required => false, trace => true}
         );
 
-    my $oElement = new BackRestDoc::Html::DocHtmlElement($strType, $strClass, $oParam);
+    my $oElement = new DocDynamo::Html::DocHtmlElement($strType, $strClass, $oParam);
 
     $self->add($oElement);
 
@@ -139,7 +139,7 @@ sub add
             {name => 'oElement', trace => true}
         );
 
-    if (!(blessed($oElement) && $oElement->isa('BackRestDoc::Html::DocHtmlElement')))
+    if (!(blessed($oElement) && $oElement->isa('DocDynamo::Html::DocHtmlElement')))
     {
         confess &log(ASSERT, 'oElement must be a valid element object');
     }

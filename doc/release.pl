@@ -24,13 +24,13 @@ use lib dirname(dirname($0)) . '/build/lib';
 use lib dirname(dirname($0)) . '/lib';
 use lib dirname(dirname($0)) . '/test/lib';
 
-use BackRestDoc::Common::Doc;
-use BackRestDoc::Common::DocConfig;
-use BackRestDoc::Common::DocManifest;
-use BackRestDoc::Common::DocRender;
-use BackRestDoc::Html::DocHtmlSite;
-use BackRestDoc::Latex::DocLatex;
-use BackRestDoc::Markdown::DocMarkdown;
+use DocDynamo::Common::Doc;
+use DocDynamo::Common::DocConfig;
+use DocDynamo::Common::DocManifest;
+use DocDynamo::Common::DocRender;
+use DocDynamo::Html::DocHtmlSite;
+use DocDynamo::Latex::DocLatex;
+use DocDynamo::Markdown::DocMarkdown;
 
 use pgBackRest::Common::Exception;
 use pgBackRest::Common::Log;

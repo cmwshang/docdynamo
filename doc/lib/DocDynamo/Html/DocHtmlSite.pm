@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC HTML SITE MODULE
 ####################################################################################################################################
-package BackRestDoc::Html::DocHtmlSite;
+package DocDynamo::Html::DocHtmlSite;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -23,9 +23,9 @@ use pgBackRest::Version;
 
 use pgBackRestTest::Common::ExecuteTest;
 
-use BackRestDoc::Common::DocConfig;
-use BackRestDoc::Common::DocManifest;
-use BackRestDoc::Html::DocHtmlPage;
+use DocDynamo::Common::DocConfig;
+use DocDynamo::Common::DocManifest;
+use DocDynamo::Html::DocHtmlPage;
 
 ####################################################################################################################################
 # CONSTRUCTOR
@@ -136,7 +136,7 @@ sub process
         eval
         {
             $strHtml = $self->{oManifest}->variableReplace(
-                new BackRestDoc::Html::DocHtmlPage(
+                new DocDynamo::Html::DocHtmlPage(
                     $self->{oManifest}, $strPageId, $bMenu, $self->{bExe}, $bCompact,
                     ${$self->{oManifest}->storage()->get($self->{strCssFile})}, $bPretty)->process());
 
@@ -152,7 +152,7 @@ sub process
                 $self->{oManifest}->cacheReset($$oRenderOut{source});
 
                 $strHtml = $self->{oManifest}->variableReplace(
-                    new BackRestDoc::Html::DocHtmlPage(
+                    new DocDynamo::Html::DocHtmlPage(
                         $self->{oManifest}, $strPageId, $bMenu, $self->{bExe}, $bCompact,
                         ${$self->{oManifest}->storage()->get($self->{strCssFile})}, $bPretty)->process());
             }

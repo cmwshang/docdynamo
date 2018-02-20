@@ -1,7 +1,7 @@
 ####################################################################################################################################
 # DOC HTML BUILDER MODULE
 ####################################################################################################################################
-package BackRestDoc::Html::DocHtmlBuilder;
+package DocDynamo::Html::DocHtmlBuilder;
 
 use strict;
 use warnings FATAL => qw(all);
@@ -13,7 +13,7 @@ use Exporter qw(import);
 use pgBackRest::Common::Log;
 use pgBackRest::Common::String;
 
-use BackRestDoc::Html::DocHtmlElement;
+use DocDynamo::Html::DocHtmlElement;
 
 ####################################################################################################################################
 # CONSTRUCTOR
@@ -53,7 +53,7 @@ sub new
             {name => 'strCss', required => false},
         );
 
-    $self->{oBody} = new BackRestDoc::Html::DocHtmlElement(HTML_BODY);
+    $self->{oBody} = new DocDynamo::Html::DocHtmlElement(HTML_BODY);
 
     # Return from function and log return values if any
     return logDebugReturn
