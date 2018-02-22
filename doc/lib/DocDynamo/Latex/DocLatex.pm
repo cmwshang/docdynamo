@@ -103,7 +103,8 @@ sub process
     # ??? Temp hack for underscores in filename
     $strLatex =~ s/pgaudit\\\_doc/pgaudit\_doc/g;
 
-    foreach my $strPageId ($self->{oManifest}->renderOutList(RENDER_TYPE_PDF))
+    # Process the sources in the order listed in the manifest.xml
+    foreach my $strPageId (@{${$self->{oManifest}->renderGet(RENDER_TYPE_PDF)}{stryOrder}})
     {
         &log(INFO, "    render out: ${strPageId}");
 
@@ -111,6 +112,8 @@ sub process
         {
             my $oDocLatexSection =
                 new docDynamo::Latex::DocLatexSection($self->{oManifest}, $strPageId, $self->{bExe});
+
+            if (defined($oRender->{title1})) { syswrite(*STDOUT, "Title1 DEFINED\n"); } # CSHANG Need to decide how to set main titles - basicall there should be a min title for a PDF document, for HTML pages (all) and for a MD document. This can come from the renderer title1 or if not specified, then take it from the page? but only the first one?
 
             # Retrieve the title and subtitle from the page
             my $oPage = $oDocLatexSection->{oDoc};

@@ -3,10 +3,12 @@
 <doc>
     <!-- System-wide variables  -->
     <variable-list>
-        <!-- <variable key="project">PROJECT NAME HERE</variable> -->
+        <!-- Required variables -->
         <variable key="dash">-</variable>
-
         <variable key="project-url-root">/</variable>
+
+        <variable key="organization">Crunchy Data Solutions, Inc.</variable>
+        <variable key="project">Crunchy Containers</variable>
 
         <!-- Logo locations -->
         <variable key="project-logo">logo.svg</variable>
@@ -27,10 +29,17 @@
         <variable key="html-footer">Prepared by Crunchy Data Solutions, Inc. &amp;mdash; {[prepare-date]}</variable>
         <variable key="html-logo">&lt;img src=&quot;{[project-logo]}&quot;&gt;</variable>
 
-        <!-- PDF variables  -->
-        <!-- <variable key="pdf-title"></variable>
-        <variable key="pdf-subtitle"></variable>
-        <variable key="pdf-file">Crunchy Data</variable> -->
+        <!-- PDF variables -->
+        <variable key="pdf-title1">{[project]}</variable>
+        <variable key="pdf-title2">my subtitle1</variable>
+        <variable key="pdf-title3">my subtitle2</variable>
+
+
+        <!-- <variable key='pdf-footer-left'>{[pdf-title1]}\\{[pdf-title3]}</variable>
+        <variable key='pdf-footer-center'>\ \\-\ \thepage\ -</variable>
+        <variable key='pdf-footer-right'>{[pdf-organization]}\\\today</variable>
+
+        <variable key="pdf-file">CrunchyBackRest-UserGuide-{[version]}</variable> -->
     </variable-list>
 
     <source-list>
@@ -49,9 +58,10 @@
         </render>
 
         <render type="pdf" file="Crunchy">
+            <title1>{[pdf-title1]} Installation Guide</title1>
+            <title2>TEST</title2>
+            <title3>TEST3</title3>
             <render-source key="install"/>
-            <render-source key="usage"/>
-            <render-source key="containers"/>
         </render>
 
         <render type="markdown">

@@ -123,6 +123,12 @@ sub new
         ${$self->{oManifest}}{source}{$strKey}{strSourceType} = $strSourceType;
     }
 
+    # Set the doc path variable
+    $self->variableSet('doc-path', $self->{strDocPath});
+
+    # Read variables from manifest
+    $self->variableListParse($self->{oManifestXml}->nodeGet('variable-list', false), $oVariableOverride);
+
     # Iterate the renderers
     foreach my $oRender ($self->{oManifestXml}->nodeGet('render-list')->nodeList('render'))
     {
@@ -140,6 +146,22 @@ sub new
         $${oRenderHash}{&RENDER_COMPACT} = $oRender->paramGet(RENDER_COMPACT, false, 'n') eq 'y' ? true : false;
         $${oRenderHash}{&RENDER_PRETTY} = $oRender->paramGet(RENDER_PRETTY, false, 'n') eq 'y' ? true : false;
         $${oRenderHash}{&RENDER_MENU} = false;
+
+        # Set main document titles (title1 is main title then title 2 and 3 are sub and sub-sub titles
+        if ($oRender->fieldTest('title1'))
+        {
+            $${oRenderHash}{title1} = $self->variableReplace($oRender->fieldGet('title1'));
+        }
+
+        if ($oRender->fieldTest('title2'))
+        {
+            $${oRenderHash}{title2} = $self->variableReplace($oRender->fieldGet('title2'));
+        }
+
+        if ($oRender->fieldTest('title3'))
+        {
+            $${oRenderHash}{title3} = $self->variableReplace($oRender->fieldGet('title3'));
+        }
 
         logDebugMisc
         (
@@ -225,11 +247,6 @@ sub new
         ${$self->{oManifest}}{render}{$strType} = $oRenderHash;
     }
 
-    # Set the doc path variable
-    $self->variableSet('doc-path', $self->{strDocPath});
-
-    # Read variables from manifest
-    $self->variableListParse($self->{oManifestXml}->nodeGet('variable-list', false), $oVariableOverride);
 
     # Return from function and log return values if any
     return logDebugReturn
