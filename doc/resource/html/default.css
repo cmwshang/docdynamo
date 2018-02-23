@@ -83,19 +83,24 @@ body {
         padding-top: 0px;
     }
 }
-@media (max-width: 992px) {
+@media (min-width: 992px) {
     #page-wrapper {
-        padding-top: 0px;
+        float:right;
     }
 }
 @media (max-width: 992px) {
+    #page-wrapper {
+        padding-top: 80px;
+    }
+}
+/* @media (max-width: 992px) {
     #sidebar-wrapper {
         position: static;
         height:auto;
         max-height: 300px;
   		border-right:0;
 	}
-}
+} */
 .footer {
     background-color:#ffffff;
 	bottom:0;
