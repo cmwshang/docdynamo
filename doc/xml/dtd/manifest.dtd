@@ -6,13 +6,17 @@
     <!ATTLIST variable eval CDATA "n">
     <!ATTLIST variable keyword CDATA "default">
 
+<!ELEMENT title1 (#PCDATA)>
+<!ELEMENT title2 (#PCDATA)>
+<!ELEMENT title3 (#PCDATA)>
+
 <!ELEMENT source-list (source+)>
 <!ELEMENT source EMPTY>
     <!ATTLIST source key CDATA #REQUIRED>
     <!ATTLIST source type CDATA "">
 
 <!ELEMENT render-list (render+)>
-<!ELEMENT render (render-source+)>
+<!ELEMENT render (title1?, title2?, title3?, render-source+)>
     <!ATTLIST render type CDATA #REQUIRED>
     <!ATTLIST render compact CDATA "n">
     <!ATTLIST render pretty CDATA "n">
