@@ -97,6 +97,22 @@ sub process
     copy("$self->{oManifest}{strDocPath}/resource/latex/cds-logo.eps", "$self->{strLatexPath}/logo.eps")
         or confess &log(ERROR, "unable to copy logo");
 
+    # Set the title variables for replacement in the doc
+    if (defined($oRender->{title1}))
+    {
+        $self->{oManifest}->variableSet('main-title1', $oRender->{title1});
+    }
+
+    if (defined($oRender->{title2}))
+    {
+        $self->{oManifest}->variableSet('main-title2', $oRender->{title2});
+    }
+
+    if (defined($oRender->{title3}))
+    {
+        $self->{oManifest}->variableSet('main-title3', $oRender->{title3});
+    }
+
     my $strLatex = $self->{oManifest}->variableReplace(
         ${$self->{oManifest}->storage()->get($self->{strPreambleFile})}, 'latex') . "\n";
 
@@ -113,24 +129,10 @@ sub process
             my $oDocLatexSection =
                 new docDynamo::Latex::DocLatexSection($self->{oManifest}, $strPageId, $self->{bExe});
 
-            if (defined($oRender->{title1})) { syswrite(*STDOUT, "Title1 DEFINED\n"); } # CSHANG Need to decide how to set main titles - basicall there should be a min title for a PDF document, for HTML pages (all) and for a MD document. This can come from the renderer title1 or if not specified, then take it from the page? but only the first one?
-
-            # Retrieve the title and subtitle from the page
-            my $oPage = $oDocLatexSection->{oDoc};
-
-            # Initialize page title
-            my $strTitle = $oPage->paramGet('title');
-            my $strSubTitle = $oPage->paramGet('subtitle', false);
-
-            $strLatex =~ s/\{\[pdf-title\]\}/$strTitle/g;
-
-            # Add a subtitle if one is defined else enter a blank line
-            if (!defined($strSubTitle))
-            {
-                $strSubTitle = '\\ ';
-            }
-
-            $strLatex =~ s/\{\[pdf-subtitle\]\}/$strSubTitle/g;
+            # Set the  main titles from the first page if not already set in the manifest.xml
+            $self->titleSet(\$strLatex, $oDocLatexSection, 'main-title1', 'title');
+            $self->titleSet(\$strLatex, $oDocLatexSection, 'main-title2', 'subtitle');
+            $self->titleSet(\$strLatex, $oDocLatexSection, 'main-title3', undef);
 
             # Save the html page
             $strLatex .= $oDocLatexSection->process();
@@ -172,6 +174,57 @@ sub process
 
     # Return from function and log return values if any
     logDebugReturn($strOperation);
+}
+
+####################################################################################################################################
+# titleSet
+#
+# Sets the variables for replacing the main titles
+####################################################################################################################################
+sub titleSet
+{
+    my $self = shift;
+
+    # Assign function parameters, defaults, and log debug info
+    my
+    (
+        $strOperation,
+        $strLatex,
+        $oDocSection,
+        $strMainTitle,
+        $strAttribute,
+    ) =
+        logDebugParam
+        (
+            __PACKAGE__ . '->titleSet', \@_,
+            {name => 'strLatex'},
+            {name => 'oDocSection'},
+            {name => 'strMainTitle'},
+            {name => 'strAttribute', required => false},
+        );
+
+
+    if (!$self->{oManifest}->variableTest($strMainTitle))
+    {
+        my $oPage = $oDocSection->{oDoc};
+
+        my $strTitle;
+
+        if (defined($strAttribute))
+        {
+            $strTitle = $oPage->paramGet($strAttribute, false);
+        }
+
+        # If one is not defined then enter a blank line
+        if (!defined($strTitle))
+        {
+            $strTitle = '\\ ';
+        }
+
+        $self->{oManifest}->variableSet($strMainTitle, $strTitle);
+
+        $$strLatex =~ s/\{\[$strMainTitle\]\}/$strTitle/g;
+    }
 }
 
 1;

@@ -59,9 +59,8 @@
 
         <render type="pdf" file="Crunchy">
             <title1>{[pdf-title1]} Installation Guide</title1>
-            <title2>TEST</title2>
-            <title3>TEST3</title3>
             <render-source key="install"/>
+            <render-source key="containers"/>
         </render>
 
         <render type="markdown">
