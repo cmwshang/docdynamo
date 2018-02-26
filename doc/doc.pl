@@ -237,22 +237,10 @@ eval
     if (@stryOutput == 0)
     {
         @stryOutput = $oManifest->renderList();
-
-        if ($oManifest->isBackRest())
-        {
-            push(@stryOutput, 'help');
-            push(@stryOutput, 'man');
-        }
     }
 
     for my $strOutput (@stryOutput)
     {
-        # If this is backrest and is not the help or man - or if it is not backrest at all, then render the output
-        if (!(($strOutput eq 'help' || $strOutput eq 'man') && $oManifest->isBackRest()))
-        {
-            $oManifest->renderGet($strOutput);
-        }
-
         &log(INFO, "render ${strOutput} output");
 
         if ($strOutput eq 'markdown')
@@ -267,25 +255,6 @@ eval
                 );
 
             $oMarkdown->process();
-        }
-        elsif (($strOutput eq 'help' || $strOutput eq 'man') && $oManifest->isBackRest())
-        {
-            # Generate the command-line help
-            my $oRender = new docDynamo::Doc::DocRender('text', $oManifest, !$bNoExe);
-            my $oDocConfig =
-                new docDynamo::Doc::DocConfig(
-                    new docDynamo::Doc::Doc("${strBasePath}/xml/reference.xml"), $oRender);
-
-            if ($strOutput eq 'help')
-            {
-                $oDocConfig->helpDataWrite($oManifest);
-            }
-            else
-            {
-                $oStorageDoc->pathCreate(
-                    "${strBasePath}/output/man", {strMode => '0770', bIgnoreExists => true, bCreateParent => true});
-                $oStorageDoc->put("${strBasePath}/output/man/" . lc(DOCDYNAMO_NAME) . '.1.txt', $oDocConfig->manGet($oManifest));
-            }
         }
         elsif ($strOutput eq 'html')
         {

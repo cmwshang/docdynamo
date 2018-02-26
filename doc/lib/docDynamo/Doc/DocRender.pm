@@ -190,41 +190,7 @@ sub new
         my $oRenderOut =
             $self->{oManifest}->renderOutGet($self->{strType} eq 'latex' ? 'pdf' : $self->{strType}, $self->{strRenderOutKey});
 
-        # If these are the backrest docs then load the reference
-        if ($self->{oManifest}->isBackRest())
-        {
-            $self->{oReference} =
-                new docDynamo::Doc::DocConfig(${$self->{oManifest}->sourceGet('reference')}{doc}, $self);
-        }
-
-        if (defined($$oRenderOut{source}) && $$oRenderOut{source} eq 'reference' && $self->{oManifest}->isBackRest())
-        {
-            if ($self->{strRenderOutKey} eq 'configuration')
-            {
-                $self->{oDoc} = $self->{oReference}->helpConfigDocGet();
-            }
-            elsif ($self->{strRenderOutKey} eq 'command')
-            {
-                $self->{oDoc} = $self->{oReference}->helpCommandDocGet();
-            }
-            else
-            {
-                confess &log(ERROR, "cannot render $self->{strRenderOutKey} from source $$oRenderOut{source}");
-            }
-        }
-        elsif (defined($$oRenderOut{source}) && $$oRenderOut{source} eq 'release' && $self->{oManifest}->isBackRest())
-        {
-            require docDynamo::Custom::DocCustomRelease;
-            docDynamo::Custom::DocCustomRelease->import();
-
-            $self->{oDoc} =
-                (new docDynamo::Custom::DocCustomRelease(
-                    ${$self->{oManifest}->sourceGet('release')}{doc}, $self->{oManifest}->keywordMatch('dev')))->docGet();
-        }
-        else
-        {
-            $self->{oDoc} = ${$self->{oManifest}->sourceGet($self->{strRenderOutKey})}{doc};
-        }
+        $self->{oDoc} = ${$self->{oManifest}->sourceGet($self->{strRenderOutKey})}{doc};
 
         $self->{oSource} = $self->{oManifest}->sourceGet($$oRenderOut{source});
     }

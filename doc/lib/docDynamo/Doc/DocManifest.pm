@@ -273,18 +273,6 @@ sub new
 }
 
 ####################################################################################################################################
-# isBackRest
-#
-# Until all the backrest specific code can be abstracted, this function will identify when BackRest docs are being built.
-####################################################################################################################################
-sub isBackRest
-{
-    my $self = shift;
-
-    return($self->variableTest('project-exe', 'pgbackrest'));
-}
-
-####################################################################################################################################
 # keywordMatch
 #
 # See if all the keywords were on the command line.
