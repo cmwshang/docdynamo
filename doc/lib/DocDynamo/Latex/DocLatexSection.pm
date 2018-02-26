@@ -14,7 +14,6 @@ use Exporter qw(import);
 use docDynamo::Common::Log;
 use docDynamo::Common::String;
 
-use docDynamo::Doc::DocConfig;
 use docDynamo::Doc::DocManifest;
 
 ####################################################################################################################################

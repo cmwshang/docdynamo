@@ -18,7 +18,6 @@ use Storable qw(dclone);
 use docDynamo::Common::Log;
 use docDynamo::Common::String;
 
-use docDynamo::Doc::DocConfig;
 use docDynamo::Doc::DocManifest;
 
 ####################################################################################################################################

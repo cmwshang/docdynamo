@@ -21,7 +21,6 @@ use docDynamo::Version;
 
 use pgBackRestTest::Common::ExecuteTest;
 
-use docDynamo::Doc::DocConfig;
 use docDynamo::Doc::DocManifest;
 use docDynamo::Markdown::DocMarkdownRender;
 

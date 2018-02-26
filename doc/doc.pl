@@ -25,7 +25,6 @@ use lib dirname(dirname($0)) . '/build/lib';
 use lib dirname(dirname($0)) . '/test/lib';
 
 use docDynamo::Doc::Doc;
-use docDynamo::Doc::DocConfig;
 use docDynamo::Doc::DocManifest;
 use docDynamo::Doc::DocRender;
 use docDynamo::Html::DocHtmlSite;
