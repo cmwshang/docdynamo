@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 ####################################################################################################################################
-# doc.pl - PgBackRest Doc Builder
+# doc.pl - docDynamo Documentation Builder
 ####################################################################################################################################
 
 ####################################################################################################################################
@@ -34,8 +34,8 @@ use docDynamo::Markdown::DocMarkdown;
 use docDynamo::Common::Exception;
 use docDynamo::Common::Log;
 use docDynamo::Common::String;
-use pgBackRest::Storage::Local;
-use pgBackRest::Storage::Posix::Driver;
+use docDynamo::Storage::Local;
+use docDynamo::Storage::Posix::Driver;
 use docDynamo::Version;
 
 ####################################################################################################################################
@@ -44,7 +44,7 @@ use docDynamo::Version;
 
 =head1 NAME
 
-doc.pl - Generate pgBackRest documentation
+doc.pl - Generate docDynamo documentation
 
 =head1 SYNOPSIS
 
@@ -52,7 +52,7 @@ doc.pl [options]
 
  General Options:
    --help           Display usage and exit
-   --version        Display pgBackRest version
+   --version        Display docDynamo version
    --quiet          Sets log level to ERROR
    --log-level      Log level for execution (e.g. ERROR, WARN, INFO, DEBUG)
    --deploy         Write exe.cache into resource for persistence
@@ -205,8 +205,8 @@ eval
     # Get the base path
     my $strBasePath = abs_path(dirname($0));
 
-    my $oStorageDoc = new pgBackRest::Storage::Local(
-        $strBasePath, new pgBackRest::Storage::Posix::Driver({bFileSync => false, bPathSync => false}));
+    my $oStorageDoc = new docDynamo::Storage::Local(
+        $strBasePath, new docDynamo::Storage::Posix::Driver({bFileSync => false, bPathSync => false}));
 
     if (!defined($strDocPath))
     {

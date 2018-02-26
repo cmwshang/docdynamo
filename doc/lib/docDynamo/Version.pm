@@ -18,7 +18,7 @@ use Exporter qw(import);
 #-----------------------------------------------------------------------------------------------------------------------------------
 use constant DOCDYNAMO_NAME                                          => 'docDynamo';
     push @EXPORT, qw(DOCDYNAMO_NAME);
-use constant DOCDYNAMO_VERSION                                       => '2.00dev';
+use constant DOCDYNAMO_VERSION                                       => '0.10dev';
     push @EXPORT, qw(DOCDYNAMO_VERSION);
 
 1;

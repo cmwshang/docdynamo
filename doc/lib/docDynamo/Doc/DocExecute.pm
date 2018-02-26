@@ -14,74 +14,71 @@ use Exporter qw(import);
 use Storable qw(dclone);
 
 use docDynamo::Common::Exception;
-use pgBackRest::Common::Ini;
 use docDynamo::Common::Log;
 use docDynamo::Common::String;
 use docDynamo::Version;
 
-use pgBackRestBuild::Config::Data;
-
 use docDynamo::Doc::DocManifest;
 
-use pgBackRestTest::Common::ExecuteTest;
-use pgBackRestTest::Common::HostTest;
-use pgBackRestTest::Common::HostGroupTest;
+use docDynamo::Common::Process::Execute;
+use docDynamo::Common::Process::Host;
+use docDynamo::Common::Process::HostGroup;
 
 ####################################################################################################################################
 # User that's building the docs
 ####################################################################################################################################
 use constant DOC_USER                                              => getpwuid($UID) eq 'root' ? 'ubuntu' : getpwuid($UID) . '';
 
-####################################################################################################################################
-# Generate indexed defines
-####################################################################################################################################
-my $rhConfigDefineIndex = cfgDefine();
-
-foreach my $strKey (sort(keys(%{$rhConfigDefineIndex})))
-{
-    # Build options for all possible db configurations
-    if (defined($rhConfigDefineIndex->{$strKey}{&CFGDEF_PREFIX}) &&
-        $rhConfigDefineIndex->{$strKey}{&CFGDEF_PREFIX} eq CFGDEF_PREFIX_DB)
-    {
-        my $strPrefix = $rhConfigDefineIndex->{$strKey}{&CFGDEF_PREFIX};
-
-        for (my $iIndex = 1; $iIndex <= CFGDEF_INDEX_DB; $iIndex++)
-        {
-            my $strKeyNew = "${strPrefix}${iIndex}" . substr($strKey, length($strPrefix));
-
-            $rhConfigDefineIndex->{$strKeyNew} = dclone($rhConfigDefineIndex->{$strKey});
-
-            $rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_INDEX_TOTAL} = CFGDEF_INDEX_DB;
-            $rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_INDEX} = $iIndex - 1;
-
-            # Create the alternate name for option index 1
-            if ($iIndex == 1)
-            {
-                $rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_ALT_NAME} = $strKey;
-            }
-            else
-            {
-                $rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_REQUIRED} = false;
-            }
-
-            if (defined($rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_DEPEND}) &&
-                defined($rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_DEPEND}{&CFGDEF_DEPEND_OPTION}))
-            {
-                $rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_DEPEND}{&CFGDEF_DEPEND_OPTION} =
-                    "${strPrefix}${iIndex}" .
-                    substr(
-                        $rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_DEPEND}{&CFGDEF_DEPEND_OPTION},
-                        length($strPrefix));
-            }
-        }
-
-        delete($rhConfigDefineIndex->{$strKey});
-    }
-    else
-    {
-        $rhConfigDefineIndex->{$strKey}{&CFGDEF_INDEX} = 0;
-    }
-}
+# ####################################################################################################################################
+# # Generate indexed defines
+# ####################################################################################################################################
+# my $rhConfigDefineIndex = cfgDefine();
+#
+# foreach my $strKey (sort(keys(%{$rhConfigDefineIndex})))
+# {
+#     # Build options for all possible db configurations
+#     if (defined($rhConfigDefineIndex->{$strKey}{&CFGDEF_PREFIX}) &&
+#         $rhConfigDefineIndex->{$strKey}{&CFGDEF_PREFIX} eq CFGDEF_PREFIX_DB)
+#     {
+#         my $strPrefix = $rhConfigDefineIndex->{$strKey}{&CFGDEF_PREFIX};
+#
+#         for (my $iIndex = 1; $iIndex <= CFGDEF_INDEX_DB; $iIndex++)
+#         {
+#             my $strKeyNew = "${strPrefix}${iIndex}" . substr($strKey, length($strPrefix));
+#
+#             $rhConfigDefineIndex->{$strKeyNew} = dclone($rhConfigDefineIndex->{$strKey});
+#
+#             $rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_INDEX_TOTAL} = CFGDEF_INDEX_DB;
+#             $rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_INDEX} = $iIndex - 1;
+#
+#             # Create the alternate name for option index 1
+#             if ($iIndex == 1)
+#             {
+#                 $rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_ALT_NAME} = $strKey;
+#             }
+#             else
+#             {
+#                 $rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_REQUIRED} = false;
+#             }
+#
+#             if (defined($rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_DEPEND}) &&
+#                 defined($rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_DEPEND}{&CFGDEF_DEPEND_OPTION}))
+#             {
+#                 $rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_DEPEND}{&CFGDEF_DEPEND_OPTION} =
+#                     "${strPrefix}${iIndex}" .
+#                     substr(
+#                         $rhConfigDefineIndex->{$strKeyNew}{&CFGDEF_DEPEND}{&CFGDEF_DEPEND_OPTION},
+#                         length($strPrefix));
+#             }
+#         }
+#
+#         delete($rhConfigDefineIndex->{$strKey});
+#     }
+#     else
+#     {
+#         $rhConfigDefineIndex->{$strKey}{&CFGDEF_INDEX} = 0;
+#     }
+# }
 
 ####################################################################################################################################
 # CONSTRUCTOR

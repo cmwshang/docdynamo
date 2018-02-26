@@ -331,8 +331,8 @@ sub logDebugProcess
     my $oParam = shift;
     my $bOptionalBlock = false;
 
-    # Strip the package name off strFunction if it's pgBackRest
-    $strFunction =~ s/^pgBackRest[^\:]*\:\://;
+    # Strip the package name off strFunction if it's docDynamo
+    $strFunction =~ s/^docDynamo[^\:]*\:\://;
 
     while (defined($oParam))
     {
