@@ -83,6 +83,7 @@ sub process
 
     # Working variables
     my $oPage = $self->{oDoc};
+    my $oRender = $self->{oManifest}->renderGet(RENDER_TYPE_HTML);
 
     # Initialize page
     my $strTitle = $oPage->paramGet('title');
@@ -93,7 +94,7 @@ sub process
     my $oHtmlBuilder = new docDynamo::Html::DocHtmlBuilder(
         $self->{oManifest}->variableReplace('{[project]}' . (defined($self->{oManifest}->variableGet('project-tagline')) ?
             $self->{oManifest}->variableGet('project-tagline') : '')),
-        $self->{oManifest}->variableReplace($strTitle . (defined($strSubTitle) ? " - ${strSubTitle}" : '')),
+        $self->{oManifest}->variableReplace($strTitle . (defined($strSubTitle) ? "<br />${strSubTitle}" : '')),
         $self->{oManifest}->variableGet('project-favicon'),
         $self->{oManifest}->variableGet('project-logo'),
         $self->{oManifest}->variableReplace(trim($self->{oDoc}->fieldGet('description'))),
@@ -141,7 +142,7 @@ sub process
         # }
 
         # Get the menu in the order listed in the manifest.xml
-        foreach my $strRenderOutKey (@{${$self->{oManifest}->renderGet(RENDER_TYPE_HTML)}{stryOrder}})
+        foreach my $strRenderOutKey (@{${$oRender}{stryOrder}})
         {
             my $oRenderOut = $self->{oManifest}->renderOutGet(RENDER_TYPE_HTML, $strRenderOutKey);
 
@@ -196,9 +197,31 @@ sub process
         $iSectionNo++;
     }
 
-    my $oPageFooter = $oPageBody->
-        addNew(HTML_DIV, 'page-footer',
-               {strContent => '{[html-footer]}'});
+    # If there is a footer, set it. There should only be one defined and that will indicate the text alignment. If more than one
+    # is defined, then the the hierarchy is left, center, right - meaning only one will be chosen.
+    if (defined($oRender->{'footer-left'}) || defined($oRender->{'footer-center'}) || defined($oRender->{'footer-right'}))
+    {
+        my $strFooterClass = 'page-footer';
+        my $strFooter;
+
+        if (defined($oRender->{'footer-left'}))
+        {
+            $strFooterClass .= " text-left";
+            $strFooter = $oRender->{'footer-left'};
+        }
+        elsif (defined($oRender->{'footer-center'}))
+        {
+            $strFooterClass .= " text-center";
+            $strFooter = $oRender->{'footer-center'};
+        }
+        else
+        {
+            $strFooterClass .= " text-right";
+            $strFooter = $oRender->{'footer-right'};
+        }
+
+        $oPageBody->addNew(HTML_DIV, $strFooterClass, {strContent => $strFooter});
+    }
 
     # Return from function and log return values if any
     return logDebugReturn

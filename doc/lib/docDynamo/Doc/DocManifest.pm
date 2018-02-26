@@ -163,6 +163,22 @@ sub new
             $${oRenderHash}{title3} = $self->variableReplace($oRender->fieldGet('title3'));
         }
 
+        # Set footers
+        if ($oRender->fieldTest('footer-left'))
+        {
+            $${oRenderHash}{'footer-left'} = $self->variableReplace($oRender->fieldGet('footer-left'));
+        }
+
+        if ($oRender->fieldTest('footer-center'))
+        {
+            $${oRenderHash}{'footer-center'} = $self->variableReplace($oRender->fieldGet('footer-center'));
+        }
+
+        if ($oRender->fieldTest('footer-right'))
+        {
+            $${oRenderHash}{'footer-right'} = $self->variableReplace($oRender->fieldGet('footer-right'));
+        }
+
         logDebugMisc
         (
             $strOperation, '    load render',

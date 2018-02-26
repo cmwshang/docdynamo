@@ -113,6 +113,11 @@ sub process
         $self->{oManifest}->variableSet('main-title3', $oRender->{title3});
     }
 
+    # Set the footer variables for replacement in the doc
+    $self->{oManifest}->variableSet('footer-left', (defined($oRender->{'footer-left'}) ? $oRender->{'footer-left'} : '\\ '));
+    $self->{oManifest}->variableSet('footer-center', (defined($oRender->{'footer-center'}) ? $oRender->{'footer-center'} : '\\ '));
+    $self->{oManifest}->variableSet('footer-right', (defined($oRender->{'footer-right'}) ? $oRender->{'footer-right'} : '\\ '));
+
     my $strLatex = $self->{oManifest}->variableReplace(
         ${$self->{oManifest}->storage()->get($self->{strPreambleFile})}, 'latex') . "\n";
 

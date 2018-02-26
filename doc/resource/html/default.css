@@ -101,11 +101,22 @@ body {
   		border-right:0;
 	}
 } */
-.footer {
-    background-color:#ffffff;
-	bottom:0;
-  	position:fixed;
-    padding:10px;
+
+
+/* CSHANG: Should replace all table and other specific text-alignments to these global ones */
+.text-left
+{
+    text-align: left;
+}
+
+.text-center
+{
+    text-align: center;
+}
+
+.text-right
+{
+    text-align: right;
 }
 
 /*******************************************************************************
@@ -669,6 +680,13 @@ Keywords
 /*******************************************************************************
 Footer
 *******************************************************************************/
+/* For a fixed page footer:
+.page-footer {
+    background-color:#ffffff;
+	bottom:0;
+  	position:fixed;
+    padding:10px;
+} */
 .page-footer
 {
     border-top: 2px #cccccc solid;
@@ -676,5 +694,4 @@ Footer
     padding-top: .25em;
     font-size: x-small;
     white-space: nowrap;
-    text-align: center;
 }

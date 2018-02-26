@@ -10,13 +10,17 @@
 <!ELEMENT title2 (#PCDATA)>
 <!ELEMENT title3 (#PCDATA)>
 
+<!ELEMENT footer-left (#PCDATA)>
+<!ELEMENT footer-center (#PCDATA)>
+<!ELEMENT footer-right (#PCDATA)>
+
 <!ELEMENT source-list (source+)>
 <!ELEMENT source EMPTY>
     <!ATTLIST source key CDATA #REQUIRED>
     <!ATTLIST source type CDATA "">
 
 <!ELEMENT render-list (render+)>
-<!ELEMENT render (title1?, title2?, title3?, render-source+)>
+<!ELEMENT render (title1?, title2?, title3?, footer-left?, footer-center?, footer-right?, render-source+)>
     <!ATTLIST render type CDATA #REQUIRED>
     <!ATTLIST render compact CDATA "n">
     <!ATTLIST render pretty CDATA "n">

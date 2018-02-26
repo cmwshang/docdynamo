@@ -3,10 +3,8 @@
 <doc>
     <!-- System-wide variables  -->
     <variable-list>
-        <!-- Required variables -->
         <variable key="dash">-</variable>
         <variable key="project-url-root">/</variable>
-
         <variable key="organization">Crunchy Data Solutions, Inc.</variable>
         <variable key="project">Crunchy Containers</variable>
 
@@ -26,20 +24,13 @@
 
             $stryMonth[$month] . ' ' . $mday . ', ' . $year;
         </variable>
-        <variable key="html-footer">Prepared by Crunchy Data Solutions, Inc. &amp;mdash; {[prepare-date]}</variable>
         <variable key="html-logo">&lt;img src=&quot;{[project-logo]}&quot;&gt;</variable>
 
         <!-- PDF variables -->
         <variable key="pdf-title1">{[project]}</variable>
-        <variable key="pdf-title2">my subtitle1</variable>
-        <variable key="pdf-title3">my subtitle2</variable>
+        <variable key="pdf-title2">Installation Guide</variable>
+        <variable key="pdf-title3">DRAFT</variable>
 
-
-        <!-- <variable key='pdf-footer-left'>{[pdf-title1]}\\{[pdf-title3]}</variable>
-        <variable key='pdf-footer-center'>\ \\-\ \thepage\ -</variable>
-        <variable key='pdf-footer-right'>{[pdf-organization]}\\\today</variable>
-
-        <variable key="pdf-file">CrunchyBackRest-UserGuide-{[version]}</variable> -->
     </variable-list>
 
     <source-list>
@@ -51,6 +42,7 @@
 
     <render-list>
         <render type="html">
+            <footer-center>Prepared by Crunchy Data Solutions, Inc. &amp;mdash; {[prepare-date]}</footer-center>
             <render-source key="install" menu="Home"/>
             <render-source key="usage" menu="Usage"/>
             <render-source key="examples" menu="Examples"/>
@@ -58,7 +50,12 @@
         </render>
 
         <render type="pdf" file="Crunchy">
-            <title1>{[pdf-title1]} Installation Guide</title1>
+            <title1>{[pdf-title1]}</title1>
+            <title2>{[pdf-title2]}</title2>
+            <title3>{[pdf-title3]}</title3>
+            <footer-left>{[pdf-title1]} {[pdf-title2]}\\{[pdf-title3]}</footer-left>
+            <footer-center>\ \\-\ \thepage\ -</footer-center>
+            <footer-right>{[organization]}\\\today</footer-right>
             <render-source key="install"/>
             <render-source key="containers"/>
         </render>
