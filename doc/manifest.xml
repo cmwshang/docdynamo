@@ -27,9 +27,8 @@
         <variable key="html-logo">&lt;img src=&quot;{[project-logo]}&quot;&gt;</variable>
 
         <!-- PDF variables -->
-        <variable key="pdf-title1">{[project]}</variable>
-        <variable key="pdf-title2">Installation Guide</variable>
-        <variable key="pdf-title3">DRAFT</variable>
+        <variable key="pdf-install-subtitle">Installation Guide</variable>
+        <variable key="pdf-install-version">DRAFT</variable>
 
     </variable-list>
 
@@ -49,11 +48,11 @@
             <render-source key="containers" menu="Containers"/>
         </render>
 
-        <render type="pdf" file="Crunchy">
-            <title1>{[pdf-title1]}</title1>
-            <title2>{[pdf-title2]}</title2>
-            <title3>{[pdf-title3]}</title3>
-            <footer-left>{[pdf-title1]} {[pdf-title2]}\\{[pdf-title3]}</footer-left>
+        <render type="pdf" file="Install">
+            <title1>{[project]}</title1>
+            <title2>{[pdf-install-subtitle]}</title2>
+            <title3>{[pdf-install-version]}</title3>
+            <footer-left>{[project]} {[pdf-install-subtitle]}\\{[pdf-install-version]}</footer-left>
             <footer-center>\ \\-\ \thepage\ -</footer-center>
             <footer-right>{[organization]}\\\today</footer-right>
             <render-source key="install"/>

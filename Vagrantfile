@@ -21,6 +21,9 @@ Vagrant.configure(2) do |config|
         yum groupinstall -y "Development Tools" "Development Libraries"
         cpanm install --force XML::Checker::Parser
 
+        echo 'Install Latex' && date
+        yum -y install texlive texlive-*.noarch ghostscript
+
         echo 'Build End' && date
     SHELL
 

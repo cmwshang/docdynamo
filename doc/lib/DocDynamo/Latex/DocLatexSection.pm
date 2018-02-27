@@ -207,10 +207,24 @@ sub sectionProcess
             my $oHeader = $oChild->nodeGet('table-header');
             my @oyColumn = $oHeader->nodeList('table-column');
 
-            my $strWidth = '{' . ($oHeader->paramTest('width') ? $oHeader->paramGet('width') : '\textwidth') . '}';
+            my $strWidth =
+                '{' . ($oHeader->paramTest('width') ? ($oHeader->paramGet('width') / 100) . '\textwidth' : '\textwidth') . '}';
 
             # Build the table header
             $strLatex .= "\\vspace{1em}\\newline\n";
+
+            # Add a title for the table if provided
+            if ($oChild->nodeGet("title", false))
+            {
+                # CSHANG This should be a caption but the RHEL/CENTOS packages are limited so we are using text here but it means
+                # it will not "stick" with the table - the title could be on one page and the table on the next
+                my $strTableTitle = defined($oChild->nodeGet("title")->paramGet('label')) ?
+                    $oChild->nodeGet("title")->paramGet('label') . $self->processText($oChild->nodeGet("title")->textGet()) :
+                     $self->processText($oChild->nodeGet("title")->textGet());
+
+                $strLatex .= "\\textbf{$strTableTitle}\n";
+                $strLatex .= "\\vspace{0.5em}\\newline\n";
+            }
 
             $strLatex .= "\\begin{tabularx}${strWidth}{ | ";
 
@@ -219,7 +233,7 @@ sub sectionProcess
                 my $strAlignCode;
                 my $strAlign = $oColumn->paramGet("align", false);
 
-                if ($oColumn->paramTest('fill', 'y'))
+                if ($oColumn->paramGet('fill', false, 'y') eq 'y')
                 {
                     if (!defined($strAlign) || $strAlign eq 'left')
                     {
@@ -260,11 +274,11 @@ sub sectionProcess
 
             $strLatex .= "}\n";
 
-            # Caption above the table
-            if ($oChild->nodeGet("title", false))
-            {
-                $strLatex .= "\\caption{" . $self->processText($oChild->nodeGet("title")->textGet()) . "}\\\\\n";
-            }
+            # Caption above the table - this only works if ltabularx is installed
+            # if ($oChild->nodeGet("title", false))
+            # {
+            #     $strLatex .= "\\caption{" . $self->processText($oChild->nodeGet("title")->textGet()) . "}\\\\\n";
+            # }
 
             $strLatex .= "\\hline";
             $strLatex .= "\\rowcolor{ltgray}\n";
@@ -292,7 +306,7 @@ sub sectionProcess
                 $strLatex .= "${strLine}\\\\";
             }
 
-            $strLatex .= "\\hline\n\\end{tabularx}\n";
+            $strLatex .= "\\hline\n\\end{tabularx}\n\\newline\n";
         }
         # Add descriptive text
         elsif ($oChild->nameGet() eq 'p')
