@@ -829,6 +829,8 @@ sub processText
             $strBuffer =~ s/\&trade\;/{\\texttrademark}/g;
             $strBuffer =~ s/\&reg\;/{\\textregistered}/g;
 
+            $strBuffer =~ s/\&rarr\;/{\\textrightarrow}/g;
+
             # Escape all ampersands after making any other conversions above
             $strBuffer =~ s/(?<!\\)\&/\\&/g;
         }

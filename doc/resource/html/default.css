@@ -83,11 +83,11 @@ body {
         padding-top: 0px;
     }
 }
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
     #page-wrapper {
         float:right;
     }
-}
+} */
 @media (max-width: 992px) {
     #page-wrapper {
         padding-top: 80px;
