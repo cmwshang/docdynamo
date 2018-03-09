@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE doc SYSTEM "doc.dtd">
+<doc title="About {[project]} ">
+    <description>{[project]} dynamically generates documentation from XML files. Output can be an entire HTML website, PDF document, markdown or all three.</description>
+
+    <!-- SECTION => OVERVIEW -->
+    <section id="overview">
+        <title>Overview</title>
+
+        <p>{[project]} dynamically generates documentation from XML files. Output formats are HTML, PDF and markdown.</p>
+    </section>
+
+    <!-- SECTION => USAGE -->
+    <section id="usage">
+        <title>Usage</title>
+
+        <p>The User Guide explains the usage.</p>
+
+    </section>
+</doc>

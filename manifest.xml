@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE doc SYSTEM "manifest.dtd">
+<doc>
+    <!-- System-wide variables  -->
+    <variable-list>
+        <variable key="dash">-</variable>
+        <variable key="project-url-root">/</variable>
+        <variable key="organization">Open Source</variable>
+        <variable key="project">DocDynamo</variable>
+        <variable key="project-exe">/docdynamo/bin/docdynamo</variable>
+
+        <!-- Logo locations -->
+        <variable key="project-logo">docdynamo.png</variable>
+        <variable key="logo">{[doc-path]}/output/latex/logo</variable>
+
+        <!-- HTML variables  -->
+        <variable key="prepare-date" eval="y">
+            use Time::Local;
+
+            my ($second, $minute , $hour, $mday, $month, $year) = localtime();
+            $year += 1900;
+
+            my @stryMonth = ('January', 'February', 'March', 'April', 'May', 'June',
+                             'July', 'August', 'September', 'October', 'November', 'December');
+
+            $stryMonth[$month] . ' ' . $mday . ', ' . $year;
+        </variable>
+        <variable key="html-logo">&lt;img src=&quot;{[project-logo]}&quot;&gt;</variable>
+
+        <!-- PDF variables -->
+        <variable key="pdf-install-subtitle">User Guide</variable>
+        <variable key="pdf-install-version">DRAFT</variable>
+        <!-- <variable key="pdf-logo">filename-in-resource/latex-dir</variable> -->
+
+    </variable-list>
+
+    <source-list>
+        <source key="about"/>
+        <source key="user-guide"/>
+    </source-list>
+
+    <render-list>
+        <render type="html">
+            <!-- <footer-center>Prepared {[prepare-date]}</footer-center> -->
+            <render-source key="about" menu="About"/>
+            <render-source key="user-guide" menu="User Guide"/>
+        </render>
+
+        <render type="pdf" file="User-Guide">
+            <title1>{[project]}</title1>
+            <title2>{[pdf-install-subtitle]}</title2>
+            <title3>{[pdf-install-version]}</title3>
+            <footer-left>{[project]} {[pdf-install-subtitle]}\\{[pdf-install-version]}</footer-left>
+            <footer-center>\ \\-\ \thepage\ -</footer-center>
+            <footer-right>{[organization]}\\\today</footer-right>
+            <render-source key="about"/>
+            <render-source key="user-guide"/>
+        </render>
+
+        <render type="markdown">
+            <render-source key="user-guide" file="README.md"/>
+        </render>
+    </render-list>
+</doc>

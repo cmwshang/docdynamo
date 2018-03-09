@@ -1,0 +1,696 @@
+@charset 'UTF-8';
+@import url(font-awesome.min.css);
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Droid+Sans');
+
+/*******************************************************************************
+Html and body
+*******************************************************************************/
+
+/* Clear formatting first otherwise scrolling will not work correctly in all browsers */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html
+{
+    background-color: #fff;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    padding-top: 50px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+#header-wrapper {
+    position: fixed;
+  	left: 0;
+  	top: 0;
+  	width: 100%;
+  	padding: 10px;
+  	z-index: 20;
+    color: #01a3e4;
+    background-color: #fff;
+    border-color: #080808;
+    box-shadow: 0 0 5px rgba(0,0,0,.8);
+}
+#content-wrapper {
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    display: inline-block;
+}
+#page-wrapper {
+    height: 100%;
+    overflow-y: auto;
+    padding: 80px 0 0px 0;
+    margin: 0 0 30px 200px;
+}
+#page-body {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+    padding: 0 15px;
+}
+#sidebar-wrapper {
+    height: 100%;
+    padding: 80px 0 0px 0;
+    position: fixed;
+    border-right: 1px solid gray;
+    width: 200px;
+    background-color: #419bdc;
+    color: #fff;
+}
+#sidebar {
+    position: relative;
+    height: 100%;
+    overflow-y:auto;
+}
+#sidebar .list-group-item {
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+}
+@media (max-width: 992px) {
+    body {
+        padding-top: 0px;
+    }
+}
+/* @media (min-width: 992px) {
+    #page-wrapper {
+        float:right;
+    }
+} */
+@media (max-width: 992px) {
+    #page-wrapper {
+        padding-top: 80px;
+    }
+}
+/* @media (max-width: 992px) {
+    #sidebar-wrapper {
+        position: static;
+        height:auto;
+        max-height: 300px;
+  		border-right:0;
+	}
+} */
+
+
+/* ???: Should replace all table and other specific text-alignments to these global ones */
+.text-left
+{
+    text-align: left;
+}
+
+.text-center
+{
+    text-align: center;
+}
+
+.text-right
+{
+    text-align: right;
+}
+
+/*******************************************************************************
+Link default styling
+*******************************************************************************/
+a:link, a:visited, a:hover, a:active
+{
+    text-decoration: underline;
+    color: black;
+}
+
+/*******************************************************************************
+Header
+*******************************************************************************/
+.page-header
+{
+    width:100%;
+    text-align:center;
+}
+
+.page-header-title
+{
+    font-size: x-large;
+    font-weight: bolder;
+    font-family: "Droid Sans", sans-serif;
+    color: #337ab7;
+}
+
+.page-header-subtitle
+{
+    position: relative;
+    top: -.25em;
+    font-weight: bold;
+}
+
+.page-header-logo
+{
+    float: left;
+    margin-top: 0.3em;
+}
+
+.page-header-logo > img
+{
+    width: 160px;
+    height: 40px;
+}
+
+/*******************************************************************************
+Menu
+*******************************************************************************/
+.page-menu
+{
+    padding-top: 5px;
+}
+
+.menu-body
+{
+    text-align: right;
+}
+
+.menu
+{
+    white-space: nowrap;
+    display: inline;
+    margin-left: 1.5em;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Droid Sans', sans-serif;
+    text-transform: uppercase;
+    color: #121212;
+}
+
+.menu:first-of-type
+{
+    margin-left: 0px;
+}
+
+/* .menu:before
+{
+    content: "[";
+}
+
+.menu:after
+{
+    content: "]";
+} */
+
+/*.menu-link*/
+
+a.menu-link:hover
+{
+    text-decoration: none;
+    color: #fff;
+    background-color: #419bdc;
+}
+
+a.menu-link:link, a.menu-link:visited
+{
+    text-decoration: none;
+}
+
+a.menu-link:active
+{
+    color: #419bdc;
+}
+
+
+/*******************************************************************************
+Table of Contents
+*******************************************************************************/
+.page-toc-body
+{
+    margin-top: .25em;
+    margin-bottom: 2em;
+}
+
+
+.section1-toc-title a,
+.section2-toc-title a,
+.section3-toc-title a,
+.section4-toc-title a
+{
+    text-decoration: none;
+    color: #fff;
+}
+
+
+
+.section1-toc-title a:hover,
+.section2-toc-title a:hover,
+.section3-toc-title a:hover,
+.section4-toc-title a:hover
+{
+    background: rgba(255,255,255,0.2);
+}
+
+
+.section1-toc-title a:active,
+.section1-toc-title a:focus,
+.section2-toc-title a:active,
+.section2-toc-title a:focus,
+.section3-toc-title a:active,
+.section3-toc-title a:focus,
+.section4-toc-title a:active,
+.section4-toc-title a:focus,
+{
+    text-decoration: none;
+}
+
+.section1-toc:first-of-type
+{
+    margin-top: 0;
+}
+
+.section1-toc
+{
+    margin-top: .5em;
+    padding-left: 3px;
+}
+
+.section1-toc-number
+{
+    display: inline;
+    font-size: 12pt;
+    margin-right: .5em;
+}
+
+.section1-toc-title
+{
+    display: inline;
+    font-size: 12pt;
+}
+
+.section2-toc
+{
+    margin-left: 1.8em;
+}
+
+.section2-toc-number
+{
+    display: inline;
+    margin-right: .5em;
+    font-size: 11pt;
+}
+
+.section2-toc-title
+{
+    display: inline;
+    font-size: 11pt;
+}
+
+.section3-toc
+{
+    margin-left: 2.3em;
+}
+
+.section3-toc-number
+{
+    display: inline;
+    margin-right: .5em;
+}
+
+.section3-toc-title
+{
+    display: inline;
+}
+
+.section4-toc
+{
+    margin-left: 2.5em;
+}
+
+.section4-toc-number
+{
+    display: inline;
+    margin-right: .5em;
+}
+
+.section4-toc-title
+{
+    display: inline;
+}
+
+/*******************************************************************************
+Section
+*******************************************************************************/
+.section1
+{
+    margin-top: 2.5em;
+}
+
+.section1:first-of-type
+{
+    margin-top: 1em;
+}
+
+.section2, .section3, .section4
+{
+    margin-top: 1em;
+}
+
+.section1-header, .section2-header, .section3-header, .section4-header, .page-toc-header
+{
+    margin-top: .5em;
+    font-weight: 500;
+}
+
+.section1-header, .page-toc-header
+{
+    border-radius: 3px;
+    color: #419bdc;
+    font-size: 22pt;
+    margin-bottom: .5em;
+}
+
+.section1-number, .section2-number, .section3-number, .section4-number
+{
+    display: inline;
+    margin-right: .5em;
+}
+
+.section1-title, .section2-title, .section3-title, .section4-title
+{
+    display: inline;
+}
+
+.section1-subtitle, .section2-subtitle, .section3-subtitle, .section4-subtitle
+{
+    font-weight: bold;
+    font-size: 16pt;
+    margin-top: .5em;
+}
+
+.section1-subsubtitle, .section2-subsubtitle, .section3-subsubtitle, .section4-subsubtitle
+{
+    font-style: italic;
+    font-size: 14pt;
+    margin-top: 0px;
+}
+
+.section1-subtitle
+{
+    font-size: 16pt;
+}
+
+.section1-subsubtitle
+{
+    font-size: 14pt;
+}
+
+.section2
+{
+    margin-top: 1em;
+}
+
+.section2-header
+{
+    /* border-bottom: 2px #6699CC solid; */
+    color: #419bdc;
+    font-size: 16pt;
+}
+
+.section2-subtitle, .section2-subtitle
+{
+    font-size: 14pt;
+}
+
+.section2-subsubtitle, .section3-subsubtitle, .section3-subsubtitle
+{
+    font-size: 12pt;
+}
+
+.section3, .section4
+{
+    margin-left: 1em;
+    margin-top: 1em;
+}
+
+.section3:first-of-type, .section4:first-of-type
+{
+    border-top: none;
+}
+
+.section3-header
+{
+    display: inline;
+    font-size: 14pt;
+    color: #419bdc;
+    /* border-bottom: 1px #6699CC solid; */
+}
+
+.section4-header
+{
+    display: inline;
+    font-size: 12pt;
+    color: #419bdc;
+    /* border-bottom: 1px #6699CC solid; */
+}
+
+.section-intro
+{
+    margin-top: .75em;
+}
+
+/*.section-body*/
+
+/*******************************************************************************
+Table Elements
+*******************************************************************************/
+.table
+{
+}
+
+.table-header-row
+{
+}
+
+.table-header-left
+{
+    text-align: left;
+}
+
+.table-header-center
+{
+    text-align: center;
+}
+
+.table-header-right
+{
+    text-align: right;
+}
+
+.table-header-fill
+{
+    width: 100%;
+}
+
+.table-row
+{
+}
+
+.table-data-left
+{
+    text-align: left;
+}
+
+.table-data-center
+{
+    text-align: center;
+}
+
+.table-data-right
+{
+    text-align: right;
+}
+
+/*******************************************************************************
+Config, Execute, Code Block, Release Elements
+*******************************************************************************/
+.section-body-text
+{
+    margin-top: 1em;
+}
+
+.section-body-text:first-of-type
+{
+    margin-top: .75em;
+}
+
+.execute,
+.config,
+.code-block
+{
+    /*white-space: nowrap;*/
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-top: .8em;
+    margin-bottom: 1em;
+}
+
+.execute-title,
+.config-title
+{
+    font-size: 11pt;
+    margin-bottom: .125em;
+}
+
+.execute-body,
+.config-body,
+.code-block
+{
+    border-radius: 3px;
+    background-color: #444444;
+    font-family: monospace;
+    unicode-bidi: embed;
+    color: #f8f8f8;
+    /*color: white;*/
+    font-size: 10pt;
+}
+
+.execute-body-cmd,
+.execute-body-output, .execute-body-output-highlight,
+.config-body-title,
+.code-block
+{
+    padding-left: .5em;
+    padding-right: .5em;
+}
+
+/* Would rather not use pre at all, but Firefox won't copy code samples correctly without it */
+pre
+{
+    margin: 0px;
+    padding: 0px;
+    white-space: pre-wrap;
+}
+
+.execute-body-cmd:before
+{
+    content: "$ ";
+}
+
+.execute-body-cmd:first-of-type, .execute-body-output,
+.config-body-title, .config-body-output,
+.code-block,
+.execute-body-output-highlight, .execute-body-output-highlight-error
+{
+    padding-top: .25em;
+}
+
+.execute-body-cmd, .execute-body-output,
+.config-body-title, .config-body-output,
+.code-block,
+.execute-body-output-highlight, .execute-body-output-highlight-error
+{
+    padding-bottom: .25em;
+}
+
+.execute-body-output,
+.config-body-output,
+.code-block
+{
+    border-radius: 3px;
+    background-color: #606060;
+}
+
+.execute-body-output-highlight
+{
+    border-radius: 3px;
+    background-color: #1e7b1e;
+}
+
+.execute-body-output-highlight-error
+{
+    border-radius: 3px;
+    background-color: #a32929;
+}
+
+.execute-body-output, .execute-body-output-highlight, .execute-body-output-highlight-error,
+.config-body-output
+{
+    padding-left: 1.75em;
+}
+
+/*.code-block*/
+
+/*.section-body-execute-output*/
+
+/*******************************************************************************
+Lists
+*******************************************************************************/
+ul.list-unordered
+{
+    margin-top: .5em;
+    padding-left: 20px;
+}
+
+li.list-unordered
+{
+    margin-top: .5em;
+}
+
+/*******************************************************************************
+Admonition
+*******************************************************************************/
+.admonition
+{
+    padding-left: 20px;
+    font-style: italic;
+    margin: 10px 0px;
+}
+
+.admonition>.note, .admonition>.warning, .admonition>.caution, .admonition>.important, .admonition>.tip
+{
+    font-weight: bold;
+    float: left;
+    padding-right: 10px;
+}
+
+.admonition>.note-text, .admonition>.warning-text, .admonition>.caution-text, .admonition>.important-text, .admonition>.tip-text
+{
+    overflow: hidden;
+}
+
+/*******************************************************************************
+Keywords
+*******************************************************************************/
+.backrest, .cmd, .postgres, .host, .proper
+{
+    font-weight: 500;
+}
+
+.path, .br-option, .br-setting, .pg-option, .pg-setting, .id, .user, .file, .path
+{
+    unicode-bidi: embed;
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+/*******************************************************************************
+Footer
+*******************************************************************************/
+/* For a fixed page footer:
+.page-footer {
+    background-color:#ffffff;
+	bottom:0;
+  	position:fixed;
+    padding:10px;
+} */
+.page-footer
+{
+    border-top: 2px #cccccc solid;
+    margin-top: 1em;
+    padding-top: .25em;
+    font-size: x-small;
+    white-space: nowrap;
+}

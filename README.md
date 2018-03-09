@@ -14,5 +14,5 @@ vagrant ssh
 Once up, invoke documentation building with your manifest.xml file and your source xml files by running:
 
 ```
-/docdynamo/doc/doc.pl
+/docdynamo/bin/docdynamo
 ```
