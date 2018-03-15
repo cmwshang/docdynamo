@@ -30,7 +30,6 @@
         <!-- PDF variables -->
         <variable key="pdf-install-subtitle">User Guide</variable>
         <variable key="pdf-install-version">DRAFT</variable>
-        <!-- <variable key="pdf-logo">filename-in-resource/latex-dir</variable> -->
 
     </variable-list>
 

@@ -100,9 +100,12 @@ sub process
     }
 
     my ($strExt) = $strLogo =~ /(\.[^.]+)$/;
+    my $strLogoPath = defined($self->{oManifest}->variableGet('pdf-logo-path')) ?
+        $self->{oManifest}->variableGet('pdf-logo-path') :
+        "$self->{oManifest}{strDocPath}/resource/latex/";
 
     # Copy the logo
-    copy("$self->{oManifest}{strDocPath}/resource/latex/$strLogo", "$self->{strLatexPath}/logo$strExt")
+    copy($strLogoPath . $strLogo, "$self->{strLatexPath}/logo$strExt")
         or confess &log(ERROR, "unable to copy logo");
 
     # Set the title variables for replacement in the doc
