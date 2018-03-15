@@ -235,10 +235,11 @@ eval
         @stryOutput = $oManifest->renderList();
     }
 
+# ??? Need to be able to specify a resource path
     for my $strOutput (@stryOutput)
     {
         &log(INFO, "render ${strOutput} output");
-
+# ??? passing "${strBasePath}/xml" is superfluous - it is never used
         if ($strOutput eq 'markdown')
         {
             my $oMarkdown =
