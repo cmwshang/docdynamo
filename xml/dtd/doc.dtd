@@ -112,7 +112,7 @@
 
 <!ELEMENT section (title?,
                    ((p|list|table|host-add|execute-list|backrest-config|postgres-config|cmd-description|
-                     option-description|code-block|block|section|admonition)+))>
+                     option-description|code-block|block|section|admonition|image)+))>
     <!ATTLIST section id CDATA #REQUIRED>
     <!ATTLIST section keyword CDATA "">
     <!ATTLIST section depend CDATA "">
@@ -245,3 +245,8 @@
     <!ATTLIST link url CDATA "">
     <!ATTLIST link page CDATA "">
     <!ATTLIST link section CDATA "">
+
+<!ELEMENT image EMPTY>
+    <!ATTLIST image type CDATA #REQUIRED>
+    <!ATTLIST image src CDATA #REQUIRED>
+    <!ATTLIST image alt CDATA "">

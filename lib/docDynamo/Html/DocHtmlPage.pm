@@ -592,6 +592,22 @@ sub sectionProcess
             $oAdmonition->addNew(HTML_DIV, $oChild->paramGet('type') . '-text',
                 {strContent => $self->processText($oChild->textGet())});
         }
+        # Add an image
+        elsif ($oChild->nameGet() eq 'image')
+        {
+            my $strImg = '<img src="{[image-path]}' . $oChild->paramGet('src') . '"';
+            if ($oChild->paramTest('alt'))
+            {
+                $strImg .= ' alt="' . $oChild->paramGet('alt') . '"';
+            }
+
+            $strImg .=  " />";
+
+            if ($oChild->paramGet('type') eq 'block')
+            {
+                my $oImgBlock = $oSectionBodyElement->addNew(HTML_DIV, 'imageblock', {strContent => $strImg});
+            }
+        }
         # Check if the child can be processed by a parent
         else
         {

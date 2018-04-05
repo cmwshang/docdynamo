@@ -13,6 +13,8 @@
         <variable key="project-logo">docdynamo.png</variable>
         <variable key="logo">{[doc-path]}/output/latex/logo</variable>
 
+        <!-- image-path defines the location of images - the trailing slash is required -->
+
         <!-- HTML variables  -->
         <variable key="prepare-date" eval="y">
             use Time::Local;
