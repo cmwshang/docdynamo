@@ -408,6 +408,12 @@ sub sectionProcess
             $strMarkdown .= "\n> **" . uc($oChild->paramGet('type')) . ":**";
             $strMarkdown .= "\n> " . $self->processText($oChild->textGet());
         }
+        # Add an image
+        elsif ($oChild->nameGet() eq 'image')
+        {
+            my $strImgPath = defined($self->{oManifest}->variableGet('image-path')) ? "{[image-path]}/" : "";
+            $strMarkdown .= "\n>![Image](" . $strImgPath . $oChild->paramGet('src') . ")\n";
+        }
         # Check if the child can be processed by a parent
         else
         {

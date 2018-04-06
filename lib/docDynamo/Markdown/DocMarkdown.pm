@@ -93,7 +93,7 @@ sub process
 
         &log(INFO, "    render out: ${strRenderOutId}");
 
-        # Save the html page
+        # Save the markdown page
         $self->{oManifest}->storage()->put(
             $strFile, $self->{oManifest}->variableReplace((new docDynamo::Markdown::DocMarkdownRender($self->{oManifest},
             $strRenderOutId, $self->{bExe}))->process()));
