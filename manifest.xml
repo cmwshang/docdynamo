@@ -13,7 +13,7 @@
         <variable key="project-logo">docdynamo.png</variable>
         <variable key="logo">{[doc-path]}/output/latex/logo</variable>
 
-        <!-- image-path defines the location of images - the trailing slash is required -->
+        <!-- image-path defines the location of images -->
 
         <!-- HTML variables  -->
         <variable key="prepare-date" eval="y">

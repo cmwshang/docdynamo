@@ -595,7 +595,8 @@ sub sectionProcess
         # Add an image
         elsif ($oChild->nameGet() eq 'image')
         {
-            my $strImg = '<img src="{[image-path]}' . $oChild->paramGet('src') . '"';
+            my $strImgPath = defined($self->{oManifest}->variableGet('image-path')) ? "{[image-path]}/" : "";
+            my $strImg = '<img src="' . $strImgPath . $oChild->paramGet('src') . '"';
             if ($oChild->paramTest('alt'))
             {
                 $strImg .= ' alt="' . $oChild->paramGet('alt') . '"';
