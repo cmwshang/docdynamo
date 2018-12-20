@@ -446,45 +446,56 @@ sub sectionProcess
                 $oTableTitle = $oChild->nodeGet('title');
             }
 
-            my $oHeader = $oChild->nodeGet('table-header');
-            my @oyColumn = $oHeader->nodeList('table-column');
-
             my $oTableElement = $oSectionBodyElement->addNew(HTML_TABLE, 'table');
+            my @oyColumn;
+
+            # If there is a title element then add it as the caption for the table
             if (defined($oTableTitle))
             {
                 # Print the label (e.g. Table 1:) in front of the title if one exists
                 my $strTableTitle = $oTableTitle->paramTest('label') ?
-                    ($oTableTitle->paramGet('label') . $self->processText($oTableTitle->textGet())) :
+                    ($oTableTitle->paramGet('label') . ': '. $self->processText($oTableTitle->textGet())) :
                     $self->processText($oTableTitle->textGet());
 
-                $oTableElement->addNew(HTML_TABLE_CAPTION, 'table-title', {strContent => $strTableTitle});
+                $oTableElement->addNew(HTML_TABLE_CAPTION, 'table-caption', {strContent => $strTableTitle});
             }
-            my $oHeaderRowElement = $oTableElement->addNew(HTML_TABLE_ROW, 'table-header-row');
 
-            foreach my $oColumn (@oyColumn)
+            # Build the header
+            if ($oChild->nodeTest('table-header'))
             {
-                my $strAlign = $oColumn->paramGet("align", false, 'left');
-                my $bFill = $oColumn->paramTest('fill', 'y');
+                my $oHeader = $oChild->nodeGet('table-header');
+                @oyColumn = $oHeader->nodeList('table-column');
 
-                $oHeaderRowElement->addNew(
-                    HTML_TABLE_HEADER,
-                    "table-header-${strAlign}" . ($bFill ? ",table-header-fill" : ""),
-                    {strContent => $self->processText($oColumn->textGet())});
+                my $oHeaderRowElement = $oTableElement->addNew(HTML_TR, 'table-header-row');
+
+                foreach my $oColumn (@oyColumn)
+                {
+                    # Each column can have different alignment properties - if not set, then default to align left
+                    my $strAlign = $oColumn->paramGet("align", false, 'left');
+                    my $bFill = $oColumn->paramTest('fill', 'y');
+
+                    $oHeaderRowElement->addNew(
+                        HTML_TH,
+                        "table-header-${strAlign}" . ($bFill ? ",table-header-fill" : ""),
+                        {strContent => $self->processText($oColumn->textGet())});
+                }
             }
 
             # Build the rows
             foreach my $oRow ($oChild->nodeGet('table-data')->nodeList('table-row'))
             {
-                my $oRowElement = $oTableElement->addNew(HTML_TABLE_ROW, 'table-row');
+                my $oRowElement = $oTableElement->addNew(HTML_TR, 'table-row');
                 my @oRowCellList = $oRow->nodeList('table-cell');
 
                 for (my $iRowCellIdx = 0; $iRowCellIdx < @oRowCellList; $iRowCellIdx++)
                 {
                     my $oRowCell = $oRowCellList[$iRowCellIdx];
-                    my $strAlign = $oyColumn[$iRowCellIdx]->paramGet("align", false, 'left');
+
+                    # If a header row was defined, then get the column alignment, else default to left
+                    my $strAlign = @oyColumn > 0 ? $oyColumn[$iRowCellIdx]->paramGet("align", false, 'left') : 'left';
 
                     $oRowElement->addNew(
-                        HTML_TABLE_DATA, "table-data-${strAlign}", {strContent => $self->processText($oRowCell->textGet())});
+                        HTML_TD, "table-data-${strAlign}", {strContent => $self->processText($oRowCell->textGet())});
                 }
             }
         }

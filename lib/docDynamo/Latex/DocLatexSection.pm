@@ -204,36 +204,30 @@ sub sectionProcess
         # Add table
         elsif ($oChild->nameGet() eq 'table')
         {
-            my $oHeader = $oChild->nodeGet('table-header');
-            my @oyColumn = $oHeader->nodeList('table-column');
+            my $oHeader;
+            my @oyColumn;
 
-            my $strWidth =
-                '{' . ($oHeader->paramTest('width') ? ($oHeader->paramGet('width') / 100) . '\textwidth' : '\textwidth') . '}';
-
-            # Build the table header
-            $strLatex .= "\\vspace{1em}\\newline\n";
-
-            # Add a title for the table if provided
-            if ($oChild->nodeGet("title", false))
+            if ($oChild->nodeTest('table-header'))
             {
-                # ??? This should be a caption but the RHEL/CENTOS packages are limited so we are using text here but it means
-                # it will not "stick" with the table - the title could be on one page and the table on the next
-                my $strTableTitle = defined($oChild->nodeGet("title")->paramGet('label')) ?
-                    $oChild->nodeGet("title")->paramGet('label') . $self->processText($oChild->nodeGet("title")->textGet()) :
-                     $self->processText($oChild->nodeGet("title")->textGet());
-
-                $strLatex .= "\\textbf{$strTableTitle}\n";
-                $strLatex .= "\\vspace{0.5em}\\newline\n";
+                $oHeader = $oChild->nodeGet('table-header');
+                @oyColumn = $oHeader->nodeList('table-column');
             }
 
-            $strLatex .= "\\begin{tabularx}${strWidth}{ | ";
+            my $strWidth =
+                '{' . (defined($oHeader) && $oHeader->paramTest('width') ? ($oHeader->paramGet('width') / 100) .
+                '\textwidth' : '\textwidth') . '}';
 
+            # Build the table
+            $strLatex .= "\\vspace{1em}\\newline\n\\begin{table}\n\\begin{tabularx}${strWidth}{|";
+
+            # Build the table header
             foreach my $oColumn (@oyColumn)
             {
                 my $strAlignCode;
                 my $strAlign = $oColumn->paramGet("align", false);
 
-                if ($oColumn->paramGet('fill', false, 'y') eq 'y')
+                # If fill is specified then use X or the custom designed alignments in the preamble to fill and justify the columns.
+                if ($oColumn->paramTest('fill') && $oColumn->paramGet('fill', false) eq 'y')
                 {
                     if (!defined($strAlign) || $strAlign eq 'left')
                     {
@@ -242,6 +236,10 @@ sub sectionProcess
                     elsif ($strAlign eq 'right')
                     {
                         $strAlignCode = 'R';
+                    }
+                    elsif ($strAlign eq 'center')
+                    {
+                        $strAlignCode = 'C';
                     }
                     else
                     {
@@ -272,25 +270,32 @@ sub sectionProcess
                 $strLatex .= $strAlignCode . ' | ';
             }
 
+            # If table-header not provided then default the column alignment and fill by using the number of columns in the 1st row
+            if (!defined($oHeader))
+            {
+                my @oyRow = $oChild->nodeGet('table-data')->nodeList('table-row');
+                foreach my $oRowCell ($oyRow[0]->nodeList('table-cell'))
+                {
+                    $strLatex .= 'X|';
+                }
+            }
+
             $strLatex .= "}\n";
-
-            # Caption above the table - this only works if ltabularx is installed
-            # if ($oChild->nodeGet("title", false))
-            # {
-            #     $strLatex .= "\\caption{" . $self->processText($oChild->nodeGet("title")->textGet()) . "}\\\\\n";
-            # }
-
-            $strLatex .= "\\hline";
-            $strLatex .= "\\rowcolor{ltgray}\n";
 
             my $strLine;
 
-            foreach my $oColumn (@oyColumn)
+            if (defined($oHeader))
             {
-                $strLine .= (defined($strLine) ? ' & ' : '') . '\textbf{' . $self->processText($oColumn->textGet()) . '}';
-            }
+                $strLatex .= "\\hline";
+                $strLatex .= "\\rowcolor{ltgray}\n";
 
-            $strLatex .= "${strLine}\\\\";
+                foreach my $oColumn (@oyColumn)
+                {
+                    $strLine .= (defined($strLine) ? ' & ' : '') . '\textbf{' . $self->processText($oColumn->textGet()) . '}';
+                }
+
+                $strLatex .= "${strLine}\\\\";
+            }
 
             # Build the rows
             foreach my $oRow ($oChild->nodeGet('table-data')->nodeList('table-row'))
@@ -306,7 +311,16 @@ sub sectionProcess
                 $strLatex .= "${strLine}\\\\";
             }
 
-            $strLatex .= "\\hline\n\\end{tabularx}\n\\newline\n";
+            $strLatex .= "\\hline\n\\end{tabularx}\n";
+
+            # If there is a title for the table, add it. Ignore the label since LaTex will automatically generate numbered labels.
+            # e.g. Table 1:
+            if ($oChild->nodeGet("title", false))
+            {
+                $strLatex .= "\\caption{" . $self->processText($oChild->nodeGet("title")->textGet()) . "}\n";
+            }
+
+            $strLatex .= "\\end{table}\n";
         }
         # Add descriptive text
         elsif ($oChild->nameGet() eq 'p')
